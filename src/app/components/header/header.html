@@ -1,1 +1,49 @@
-<p>header works!</p>
+<header>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary py-3">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <a routerLink="/" class="navbar-brand p-0 m-0">
+        <img src="/logo.png" alt="Logo Auto Center Silva" height="60" />
+      </a>
+
+      <form class="d-flex input-group flex-grow-1 busca" role="search">
+        <input
+          type="search"
+          class="form-control rounded-start"
+          placeholder="Ex: 165/70 R13"
+          aria-label="Buscar pneu"
+        />
+        <button class="btn btn-primary rounded-end" type="submit" aria-label="Pesquisar">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+
+      <ul class="navbar-nav d-flex flex-row align-items-center gap-3 mb-0">
+        <li mdbDropdown class="nav-item dropdown">
+          <a
+            class="nav-link"
+            href="javascript:void(0)"
+            id="menuUsuario"
+            role="button"
+            mdbDropdownToggle
+            aria-expanded="false"
+          >
+            <i class="fas fa-user fa-lg"></i>
+          </a>
+          <ul mdbDropdownMenu class="dropdown-menu dropdown-menu-end" aria-labelledby="menuUsuario">
+            <li><a class="dropdown-item" href="javascript:void(0)">Entrar</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0)">Meus pedidos</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item position-relative">
+          <a class="nav-link" href="javascript:void(0)" aria-label="Carrinho de compras">
+            <i class="fas fa-shopping-cart fa-lg"></i>
+            <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">
+              {{ quantidadeCarrinho() }}
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

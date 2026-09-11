@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
 
 @Component({
-  imports: [],
   selector: 'app-header',
-  styleUrl: './header.scss',
+  imports: [RouterLink, MdbDropdownModule],
   templateUrl: './header.html',
+  styleUrl: './header.scss',
 })
-export class Header {}
+export class Header {
+  protected readonly quantidadeCarrinho = signal(0);
+}

@@ -1,9 +1,14 @@
-import { Component } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { ProdutoResumo } from '../../models/produto.model';
 
 @Component({
-  imports: [],
   selector: 'app-product-card',
-  styleUrl: './product-card.scss',
+  imports: [RouterLink, CurrencyPipe],
   templateUrl: './product-card.html',
+  styleUrl: './product-card.scss',
 })
-export class ProductCard {}
+export class ProductCard {
+  readonly produto = input.required<ProdutoResumo>();
+}

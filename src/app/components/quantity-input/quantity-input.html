@@ -1,1 +1,13 @@
-<p>quantity-input works!</p>
+<div class="d-flex align-items-center gap-2">
+  <label for="quantidade" class="fw-bold mb-0">Quantidade:</label>
+  <select
+    id="quantidade"
+    class="form-select form-select-sm w-auto"
+    [ngModel]="quantidade()"
+    (ngModelChange)="quantidade.set($event)"
+  >
+    @for (opcao of opcoes(); track opcao) {
+      <option [value]="opcao">{{ opcao }}</option>
+    }
+  </select>
+</div>

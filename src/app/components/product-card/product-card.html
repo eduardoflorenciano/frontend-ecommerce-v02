@@ -1,8 +1,14 @@
 <div class="card h-100 shadow-sm product-card">
   <div class="position-relative">
-    <span class="badge bg-danger position-absolute top-0 start-0 m-2">
-      {{ produto().percentualDesconto }}% OFF
-    </span>
+    @if (produto().percentualDesconto > 0) {
+      <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+        {{ produto().percentualDesconto }}% OFF
+      </span>
+    } @else if (produto().rotulo) {
+      <span class="badge bg-dark position-absolute top-0 start-0 m-2">
+        {{ produto().rotulo }}
+      </span>
+    }
     <img
       [src]="produto().imagemUrl"
       [alt]="produto().nome"
@@ -22,7 +28,9 @@
     <h6 class="card-title mb-1">{{ produto().nome }}</h6>
     <p class="text-muted small mb-2">{{ produto().medida }}</p>
 
-    <del class="text-danger small">{{ produto().precoOriginal | currency: 'BRL' }}</del>
+    @if (produto().percentualDesconto > 0) {
+      <del class="text-danger small">{{ produto().precoOriginal | currency: 'BRL' }}</del>
+    }
     <p class="fw-bold text-success fs-5 mb-0">
       {{ produto().precoAtual | currency: 'BRL' }}
       <span class="fw-normal small d-block d-sm-inline">à vista no Pix</span>

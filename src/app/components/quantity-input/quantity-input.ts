@@ -1,9 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, computed, input, model } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [],
   selector: 'app-quantity-input',
-  styleUrl: './quantity-input.scss',
+  imports: [FormsModule],
   templateUrl: './quantity-input.html',
+  styleUrl: './quantity-input.scss',
 })
-export class QuantityInput {}
+export class QuantityInput {
+
+  readonly quantidade = model(1);
+  readonly max = input(10);
+
+  protected readonly opcoes = computed(() =>
+    Array.from({ length: this.max() }, (_valor, indice) => indice + 1),
+  );
+}

@@ -14,7 +14,6 @@ export class FloatingActions {
   protected readonly linkWhatsapp =
     `https://wa.me/${this.numeroWhatsapp}?text=${encodeURIComponent(this.mensagemWhatsapp)}`;
 
-  
   protected readonly mostrarBotaoTopo = signal(false);
 
   @HostListener('window:scroll')

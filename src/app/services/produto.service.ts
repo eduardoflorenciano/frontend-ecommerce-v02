@@ -77,11 +77,29 @@ export class ProdutoService {
     parcelas: this.produtoDetalheMock.parcelas,
   }));
 
+  private readonly produtosMaisVendidosMock: ProdutoResumo[] = Array.from({ length: 4 }, (_valor, indice) => ({
+    id: `mais-vendido-${indice + 1}`,
+    nome: 'Pneu XBri Fastway A2',
+    medida: '185/65 R14 86H',
+    marca: 'XBRI',
+    logoMarcaUrl: '/xbri-logo.png',
+    imagemUrl: '/pneu.png',
+    precoOriginal: 350,
+    precoAtual: 350,
+    percentualDesconto: 0,
+    parcelas: { quantidade: 10, valor: 35 },
+    rotulo: 'MAIS VENDIDO',
+  }));
+
   obterProdutoDetalhe(): Produto {
     return this.produtoDetalheMock;
   }
 
   obterProdutosPromocao(): ProdutoResumo[] {
     return this.produtosPromocaoMock;
+  }
+
+  obterProdutosMaisVendidos(): ProdutoResumo[] {
+    return this.produtosMaisVendidosMock;
   }
 }

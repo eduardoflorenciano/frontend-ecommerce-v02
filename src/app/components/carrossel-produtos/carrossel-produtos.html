@@ -1,0 +1,31 @@
+<section class="carrossel-produtos">
+  <h4 class="mb-3">{{ titulo() }}</h4>
+
+  <div class="posicao-relativa">
+    <button
+      type="button"
+      class="botao-seta esquerda"
+      (click)="rolar('anterior')"
+      aria-label="Ver produtos anteriores"
+    >
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <div class="trilho" #trilho>
+      @for (item of produtos(); track item.id) {
+        <div class="item-carrossel">
+          <app-product-card [produto]="item" />
+        </div>
+      }
+    </div>
+
+    <button
+      type="button"
+      class="botao-seta direita"
+      (click)="rolar('proximo')"
+      aria-label="Ver próximos produtos"
+    >
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+</section>

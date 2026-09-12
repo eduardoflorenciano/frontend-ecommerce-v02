@@ -15,6 +15,9 @@ import { MdbScrollspyModule } from 'mdb-angular-ui-kit/scrollspy';
 import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
 import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
+import { FloatingActions } from './components/floating-actions/floating-actions';
+import { Footer } from './components/footer/footer';
+import { Header } from './components/header/header';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +37,10 @@ import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
     MdbScrollspyModule,
     MdbTabsModule,
     MdbTooltipModule,
-    MdbValidationModule,
+    MdbValidationModule, 
+    Header, 
+    Footer, 
+    FloatingActions
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',

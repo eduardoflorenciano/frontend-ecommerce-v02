@@ -24,6 +24,7 @@ export interface ProdutoResumo {
   precoAtual: number;
   percentualDesconto: number;
   parcelas: Parcelamento;
+  rotulo?: string;
 }
 
 export interface Produto extends ProdutoResumo {

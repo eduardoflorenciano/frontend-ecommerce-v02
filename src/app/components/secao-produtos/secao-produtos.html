@@ -1,0 +1,11 @@
+<section class="secao-produtos">
+  <h4 class="mb-3">{{ titulo() }}</h4>
+
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    @for (item of produtos(); track item.id) {
+      <div class="col">
+        <app-product-card [produto]="item" />
+      </div>
+    }
+  </div>
+</section>

@@ -2,11 +2,11 @@ import { Component, inject } from '@angular/core';
 import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
 import { MarcaService } from '../../services/marca.service';
 import { ProdutoService } from '../../services/produto.service';
-import { CarrosselProdutos } from '../carrossel-produtos/carrossel-produtos';
+import { SecaoProdutos } from '../secao-produtos/secao-produtos';
 
 @Component({
   selector: 'app-home',
-  imports: [MdbRippleModule, CarrosselProdutos],
+  imports: [MdbRippleModule, SecaoProdutos],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -25,6 +25,6 @@ export class Home {
   protected readonly aros = [13, 14, 15, 16, 17, 18, 19, 20];
 
   protected buscarPorMedida(): void {
-    console.log('Buscar pneu por medida (ainda não integrado ao back-end kakakakaka)');
+    console.log('Buscar pneu por medida (ainda não integrado ao back-end)');
   }
 }

@@ -1,0 +1,75 @@
+<div class="container my-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/">Início</a></li>
+      <li class="breadcrumb-item"><a routerLink="/">Pneus</a></li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ termoPesquisado() || 'Todos os pneus' }}
+      </li>
+    </ol>
+  </nav>
+
+  <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+    <div>
+      <h1 class="h4 fw-bold mb-1">{{ termoPesquisado() || 'Todos os pneus' }}</h1>
+      <p class="text-muted mb-0">
+        {{ produtosEncontrados().length }}
+        {{ produtosEncontrados().length === 1 ? 'produto encontrado' : 'produtos encontrados' }}
+      </p>
+    </div>
+
+    @if (produtosEncontrados().length > 0) {
+      <div>
+        <label for="ordenacao" class="visually-hidden">Ordenar por</label>
+        <select id="ordenacao" class="form-select" (change)="aoMudarOrdenacao($event)">
+          <option value="relevancia">Ordenar por</option>
+          <option value="mais-barato">Mais barato</option>
+          <option value="mais-caro">Mais caro</option>
+          <option value="ordem-alfabetica">Ordem alfabética</option>
+        </select>
+      </div>
+    }
+  </div>
+
+  @if (produtosEncontrados().length === 0) {
+    <div class="text-center text-muted py-5">
+      <p class="fs-5 mb-2">Nenhum pneu encontrado para "{{ termoPesquisado() }}".</p>
+      <p class="mb-4">Tente pesquisar por outra medida ou pelo nome do produto.</p>
+      <a routerLink="/" class="btn btn-primary">Voltar para a página inicial</a>
+    </div>
+  } @else {
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      @for (produto of produtosPagina(); track produto.id) {
+        <div class="col">
+          <app-product-card [produto]="produto" />
+        </div>
+      }
+    </div>
+
+    @if (totalPaginas() > 1) {
+      <nav aria-label="Paginação de resultados" class="mt-4">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="paginaAtual() === 1">
+            <button type="button" class="page-link" (click)="irParaPagina(paginaAtual() - 1)">
+              Anterior
+            </button>
+          </li>
+
+          @for (pagina of paginasVisiveis(); track pagina) {
+            <li class="page-item" [class.active]="pagina === paginaAtual()">
+              <button type="button" class="page-link" (click)="irParaPagina(pagina)">
+                {{ pagina }}
+              </button>
+            </li>
+          }
+
+          <li class="page-item" [class.disabled]="paginaAtual() === totalPaginas()">
+            <button type="button" class="page-link" (click)="irParaPagina(paginaAtual() + 1)">
+              Próximo
+            </button>
+          </li>
+        </ul>
+      </nav>
+    }
+  }
+</div>

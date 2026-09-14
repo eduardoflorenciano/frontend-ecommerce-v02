@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
+import { Router } from '@angular/router';
 import { MarcaService } from '../../services/marca.service';
 import { ProdutoService } from '../../services/produto.service';
 import { SecaoProdutos } from '../secao-produtos/secao-produtos';
@@ -13,6 +14,7 @@ import { SecaoProdutos } from '../secao-produtos/secao-produtos';
 export class Home {
   private readonly produtoService = inject(ProdutoService);
   private readonly marcaService = inject(MarcaService);
+  private readonly router = inject(Router);
 
   protected readonly produtosPromocao = this.produtoService.obterProdutosPromocao();
   protected readonly produtosMaisVendidos = this.produtoService.obterProdutosMaisVendidos();
@@ -24,7 +26,10 @@ export class Home {
   protected readonly perfis = [30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85];
   protected readonly aros = [13, 14, 15, 16, 17, 18, 19, 20];
 
-  protected buscarPorMedida(): void {
-    console.log('Buscar pneu por medida (ainda não integrado ao back-end)');
+  protected buscarPorMedida(largura: string, perfil: string, aro: string): void {
+    if (!largura || !perfil || !aro) {
+      return;
+    }
+    this.router.navigate(['/busca'], { queryParams: { largura, perfil, aro } });
   }
 }

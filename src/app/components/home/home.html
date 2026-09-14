@@ -3,11 +3,13 @@
 
   <form
     class="row row-cols-2 row-cols-md-4 g-2 justify-content-center align-items-end mx-auto busca-medida"
-    (submit)="$event.preventDefault(); buscarPorMedida()"
+    (submit)="
+      $event.preventDefault(); buscarPorMedida(larguraSelect.value, perfilSelect.value, aroSelect.value)
+    "
   >
     <div class="col">
       <label for="largura" class="visually-hidden">Largura</label>
-      <select id="largura" class="form-select" required>
+      <select id="largura" #larguraSelect class="form-select" required>
         <option value="" selected disabled hidden>Largura</option>
         @for (largura of larguras; track largura) {
           <option [value]="largura">{{ largura }}</option>
@@ -17,7 +19,7 @@
 
     <div class="col">
       <label for="perfil" class="visually-hidden">Perfil</label>
-      <select id="perfil" class="form-select" required>
+      <select id="perfil" #perfilSelect class="form-select" required>
         <option value="" selected disabled hidden>Perfil</option>
         @for (perfil of perfis; track perfil) {
           <option [value]="perfil">{{ perfil }}</option>
@@ -27,7 +29,7 @@
 
     <div class="col">
       <label for="aro" class="visually-hidden">Aro</label>
-      <select id="aro" class="form-select" required>
+      <select id="aro" #aroSelect class="form-select" required>
         <option value="" selected disabled hidden>Aro</option>
         @for (aro of aros; track aro) {
           <option [value]="aro">{{ aro }}</option>

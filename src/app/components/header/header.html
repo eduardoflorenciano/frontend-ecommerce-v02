@@ -5,12 +5,14 @@
         <img src="/logo.png" alt="Logo Auto Center Silva" height="60" />
       </a>
 
-      <form class="d-flex input-group flex-grow-1 busca" role="search">
+      <form class="d-flex input-group flex-grow-1 busca" role="search" (ngSubmit)="buscar()">
         <input
           type="search"
           class="form-control rounded-start"
           placeholder="Ex: 165/70 R13"
           aria-label="Buscar pneu"
+          name="termoBusca"
+          [(ngModel)]="termoBusca"
         />
         <button class="btn btn-primary rounded-end" type="submit" aria-label="Pesquisar">
           <i class="fas fa-search"></i>

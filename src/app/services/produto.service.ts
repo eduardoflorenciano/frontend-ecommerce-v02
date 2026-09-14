@@ -178,4 +178,15 @@ export class ProdutoService {
   obterProdutosMaisVendidos(): ProdutoResumo[] {
     return this.catalogoMock.filter((produto) => produto.rotulo === 'MAIS VENDIDO');
   }
+
+  buscarProdutos(termo: string): ProdutoResumo[] {
+    const termoNormalizado = termo.trim().toLowerCase();
+    if (!termoNormalizado) {
+      return this.catalogoMock;
+    }
+
+    return this.catalogoMock.filter((produto) =>
+      `${produto.nome} ${produto.medida}`.toLowerCase().includes(termoNormalizado),
+    );
+  }
 }

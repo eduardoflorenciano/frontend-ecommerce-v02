@@ -41,11 +41,7 @@
   </form>
 </section>
 
-<app-carrossel-produtos
-  class="container d-block my-5"
-  titulo="Promoções"
-  [produtos]="produtosPromocao"
-/>
+<app-secao-produtos class="container d-block my-5" titulo="Promoções" [produtos]="produtosPromocao" />
 
 <section class="bg-light py-5">
   <div class="container text-center">
@@ -58,7 +54,7 @@
   </div>
 </section>
 
-<app-carrossel-produtos
+<app-secao-produtos
   class="container d-block my-5"
   titulo="Mais vendidos"
   [produtos]="produtosMaisVendidos"
@@ -77,16 +73,16 @@
     <div class="col-md-7">
       <p>
         Saber ler a medida do pneu é fundamental na hora da compra. Todo pneu tem uma medida
-        específica. No exemplo mostramos como a medida 205/55 R16 pode ser encontrada no seu pneu, e
-        também o seu significado:
+        específica. No exemplo mostramos como a medida 205/55 R16 pode ser encontrada no seu pneu,
+        e também o seu significado:
       </p>
       <p>
-        <strong>205</strong> – Largura do pneu em milímetros. Neste caso, este pneu tem a largura de
-        205 mm, ou 20,50 centímetros.
+        <strong>205</strong> – Largura do pneu em milímetros. Neste caso, este pneu tem a largura
+        de 205 mm, ou 20,50 centímetros.
       </p>
       <p>
-        <strong>55</strong> – Perfil. Ele é o percentual da largura do pneu. Neste exemplo, a medida
-        55 representa 55% da largura do pneu.
+        <strong>55</strong> – Perfil. Ele é o percentual da largura do pneu. Neste exemplo, a
+        medida 55 representa 55% da largura do pneu.
       </p>
       <p><strong>R</strong> – Tipo de construção do pneu. Neste caso, o "R" significa radial.</p>
       <p>
@@ -101,10 +97,10 @@
   <h4 class="mb-3">Saiba mais sobre a etiqueta do Inmetro</h4>
   <p>
     A etiqueta do Inmetro, do Programa Brasileiro de Etiquetagem (PBE), tem como objetivo fornecer
-    ao consumidor informações sobre o desempenho dos pneus. Os pneus novos devem vir com a etiqueta,
-    isso garante que todos os produtos passaram pelo rigoroso teste de qualidade. Exceto pneus que
-    possuem a aplicação e utilização para terrenos off-road (M/T), os quais são isentos dos
-    parâmetros base indicados pelo Inmetro, pois sua utilização necessita de características
+    ao consumidor informações sobre o desempenho dos pneus. Os pneus novos devem vir com a
+    etiqueta, isso garante que todos os produtos passaram pelo rigoroso teste de qualidade. Exceto
+    pneus que possuem a aplicação e utilização para terrenos off-road (M/T), os quais são isentos
+    dos parâmetros base indicados pelo Inmetro, pois sua utilização necessita de características
     específicas voltadas para a performance off-road.
   </p>
   <img

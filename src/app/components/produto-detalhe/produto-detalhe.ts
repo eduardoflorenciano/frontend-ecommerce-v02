@@ -4,12 +4,12 @@ import { RouterLink } from '@angular/router';
 import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
 import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
 import { ProdutoService } from '../../services/produto.service';
-import { CarrosselProdutos } from '../carrossel-produtos/carrossel-produtos';
 import { QuantityInput } from '../quantity-input/quantity-input';
+import { SecaoProdutos } from '../secao-produtos/secao-produtos';
 
 @Component({
   selector: 'app-produto-detalhe',
-  imports: [RouterLink, CurrencyPipe, MdbTabsModule, MdbRippleModule, CarrosselProdutos, QuantityInput],
+  imports: [RouterLink, CurrencyPipe, MdbTabsModule, MdbRippleModule, SecaoProdutos, QuantityInput],
   templateUrl: './produto-detalhe.html',
   styleUrl: './produto-detalhe.scss',
 })
@@ -17,7 +17,11 @@ export class ProdutoDetalhe {
   private readonly produtoService = inject(ProdutoService);
 
   protected readonly produto = this.produtoService.obterProdutoDetalhe();
-  protected readonly produtosPromocao = this.produtoService.obterProdutosPromocao();
+
+  protected readonly produtosRelacionados = this.produtoService
+    .obterProdutosPromocao()
+    .filter((item) => item.id !== this.produto.id);
+
   protected readonly quantidade = signal(1);
 
   protected adicionarAoCarrinho(): void {

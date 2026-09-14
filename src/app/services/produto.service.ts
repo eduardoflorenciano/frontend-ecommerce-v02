@@ -64,42 +64,118 @@ export class ProdutoService {
     imagemInmetroUrl: '/etiqueta-inmetro.webp',
   };
 
-  private readonly produtosPromocaoMock: ProdutoResumo[] = Array.from({ length: 4 }, (_valor, indice) => ({
-    id: `promo-${indice + 1}`,
-    nome: this.produtoDetalheMock.nome,
-    medida: this.produtoDetalheMock.medida,
-    marca: this.produtoDetalheMock.marca,
-    logoMarcaUrl: this.produtoDetalheMock.logoMarcaUrl,
-    imagemUrl: this.produtoDetalheMock.imagemUrl,
-    precoOriginal: this.produtoDetalheMock.precoOriginal,
-    precoAtual: this.produtoDetalheMock.precoAtual,
-    percentualDesconto: this.produtoDetalheMock.percentualDesconto,
-    parcelas: this.produtoDetalheMock.parcelas,
-  }));
-
-  private readonly produtosMaisVendidosMock: ProdutoResumo[] = Array.from({ length: 4 }, (_valor, indice) => ({
-    id: `mais-vendido-${indice + 1}`,
-    nome: 'Pneu XBri Fastway A2',
-    medida: '185/65 R14 86H',
-    marca: 'XBRI',
-    logoMarcaUrl: '/xbri-logo.png',
-    imagemUrl: '/pneu.png',
-    precoOriginal: 350,
-    precoAtual: 350,
-    percentualDesconto: 0,
-    parcelas: { quantidade: 10, valor: 35 },
-    rotulo: 'MAIS VENDIDO',
-  }));
+  private readonly catalogoMock: ProdutoResumo[] = [
+    {
+      id: this.produtoDetalheMock.id,
+      nome: this.produtoDetalheMock.nome,
+      medida: this.produtoDetalheMock.medida,
+      marca: this.produtoDetalheMock.marca,
+      logoMarcaUrl: this.produtoDetalheMock.logoMarcaUrl,
+      imagemUrl: this.produtoDetalheMock.imagemUrl,
+      precoOriginal: this.produtoDetalheMock.precoOriginal,
+      precoAtual: this.produtoDetalheMock.precoAtual,
+      percentualDesconto: this.produtoDetalheMock.percentualDesconto,
+      parcelas: this.produtoDetalheMock.parcelas,
+    },
+    {
+      id: 'xbri-fastway-a2',
+      nome: 'Pneu XBri Fastway A2',
+      medida: '185/65 R14 86H',
+      marca: 'XBRI',
+      logoMarcaUrl: '/xbri-logo.png',
+      imagemUrl: '/pneu.png',
+      precoOriginal: 400,
+      precoAtual: 350,
+      percentualDesconto: 13,
+      parcelas: { quantidade: 10, valor: 35 },
+    },
+    {
+      id: 'firemax-fm601',
+      nome: 'Pneu Firemax FM601',
+      medida: '195/50 R16 88V',
+      marca: 'Firemax',
+      logoMarcaUrl: '/firemax-logo.png',
+      imagemUrl: '/pneu.png',
+      precoOriginal: 420,
+      precoAtual: 370,
+      percentualDesconto: 12,
+      parcelas: { quantidade: 10, valor: 37 },
+    },
+    {
+      id: 'doublecoin-dc99',
+      nome: 'Pneu DoubleCoin DC99',
+      medida: '185/60 R15 84H',
+      marca: 'DoubleCoin',
+      logoMarcaUrl: '/doublecoin-logo.png',
+      imagemUrl: '/pneu.png',
+      precoOriginal: 390,
+      precoAtual: 340,
+      percentualDesconto: 13,
+      parcelas: { quantidade: 10, valor: 34 },
+    },
+    {
+      id: 'linglong-crosswind-hp010',
+      nome: 'Pneu Linglong Crosswind HP010',
+      medida: '195/60 R15 88V',
+      marca: 'Linglong Tire',
+      logoMarcaUrl: '/linglong-logo.png',
+      imagemUrl: '/pneu.png',
+      precoOriginal: 380,
+      precoAtual: 380,
+      percentualDesconto: 0,
+      parcelas: { quantidade: 10, valor: 38 },
+      rotulo: 'MAIS VENDIDO',
+    },
+    {
+      id: 'xbri-ecopower-a5',
+      nome: 'Pneu XBri Ecopower A5',
+      medida: '175/70 R13 82T',
+      marca: 'XBRI',
+      logoMarcaUrl: '/xbri-logo.png',
+      imagemUrl: '/pneu.png',
+      precoOriginal: 320,
+      precoAtual: 320,
+      percentualDesconto: 0,
+      parcelas: { quantidade: 10, valor: 32 },
+      rotulo: 'MAIS VENDIDO',
+    },
+    {
+      id: 'firemax-fm916',
+      nome: 'Pneu Firemax FM916',
+      medida: '205/55 R16 91V',
+      marca: 'Firemax',
+      logoMarcaUrl: '/firemax-logo.png',
+      imagemUrl: '/pneu.png',
+      precoOriginal: 440,
+      precoAtual: 440,
+      percentualDesconto: 0,
+      parcelas: { quantidade: 10, valor: 44 },
+      rotulo: 'MAIS VENDIDO',
+    },
+    {
+      id: 'doublecoin-dc88',
+      nome: 'Pneu DoubleCoin DC88',
+      medida: '205/60 R16 92V',
+      marca: 'DoubleCoin',
+      logoMarcaUrl: '/doublecoin-logo.png',
+      imagemUrl: '/pneu.png',
+      precoOriginal: 450,
+      precoAtual: 450,
+      percentualDesconto: 0,
+      parcelas: { quantidade: 10, valor: 45 },
+      rotulo: 'MAIS VENDIDO',
+    },
+  ];
 
   obterProdutoDetalhe(): Produto {
     return this.produtoDetalheMock;
   }
 
   obterProdutosPromocao(): ProdutoResumo[] {
-    return this.produtosPromocaoMock;
+    return this.catalogoMock.filter((produto) => produto.percentualDesconto > 0);
   }
 
   obterProdutosMaisVendidos(): ProdutoResumo[] {
-    return this.produtosMaisVendidosMock;
+    return this.catalogoMock.filter((produto) => produto.rotulo === 'MAIS VENDIDO');
   }
 }

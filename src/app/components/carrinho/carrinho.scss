@@ -1,0 +1,9 @@
+.carrinho-card {
+  width: 100%;
+  max-width: 640px;
+}
+
+.item-carrinho:not(:last-child) {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}

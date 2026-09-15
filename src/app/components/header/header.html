@@ -38,10 +38,10 @@
         </li>
 
         <li class="nav-item position-relative">
-          <a class="nav-link" href="javascript:void(0)" aria-label="Carrinho de compras">
+          <a class="nav-link" routerLink="/carrinho" aria-label="Carrinho de compras">
             <i class="fas fa-shopping-cart fa-lg"></i>
             <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">
-              {{ quantidadeCarrinho() }}
+              {{ carrinhoService.quantidadeTotal() }}
             </span>
           </a>
         </li>

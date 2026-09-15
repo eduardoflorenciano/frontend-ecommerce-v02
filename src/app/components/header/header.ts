@@ -1,7 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
+import { CarrinhoService } from '../../services/carrinho.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,8 @@ import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
 })
 export class Header {
   private readonly router = inject(Router);
-  protected readonly quantidadeCarrinho = signal(0);
+  protected readonly carrinhoService = inject(CarrinhoService);
+
   protected termoBusca = '';
 
   protected buscar(): void {

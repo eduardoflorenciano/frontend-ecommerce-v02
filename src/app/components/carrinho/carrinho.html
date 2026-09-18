@@ -6,50 +6,56 @@
     </h1>
 
     @if (itens().length === 0) {
-      <div class="text-center py-5">
-        <p class="fs-5 fw-bold mb-1">Seu carrinho está vazio</p>
-        <p class="text-muted mb-0">Adicione produtos para continuar comprando</p>
-      </div>
+    <div class="text-center py-5">
+      <p class="fs-5 fw-bold mb-1">Seu carrinho está vazio</p>
+      <p class="text-muted mb-0">Adicione produtos para continuar comprando</p>
+    </div>
     } @else {
-      <div class="d-flex flex-column gap-4 mb-4">
-        @for (item of itens(); track item.produto.id) {
-          <div class="row align-items-center g-3 item-carrinho">
-            <div class="col-4 col-md-2">
-              <img [src]="item.produto.imagemUrl" [alt]="item.produto.nome" class="img-fluid" />
-            </div>
+    <div class="d-flex flex-column gap-4 mb-4">
+      @for (item of itens(); track item.produto.id) {
+      <div class="row align-items-center g-3 item-carrinho">
+        <div class="col-4 col-md-2">
+          <img
+            [src]="item.produto.imagemUrl"
+            [alt]="item.produto.nome"
+            class="img-fluid"
+          />
+        </div>
 
-            <div class="col-8 col-md-6">
-              <img
-                [src]="item.produto.logoMarcaUrl"
-                [alt]="'Logo ' + item.produto.marca"
-                height="16"
-                class="mb-1"
-              />
-              <h6 class="mb-0">{{ item.produto.nome }}</h6>
-              <p class="text-muted small mb-2">{{ item.produto.medida }}</p>
-              <app-quantity-input
-                [quantidade]="item.quantidade"
-                (quantidadeChange)="alterarQuantidade(item.produto.id, $event)"
-              />
-            </div>
+        <div class="col-8 col-md-6">
+          <img
+            [src]="item.produto.logoMarcaUrl"
+            [alt]="'Logo ' + item.produto.marca"
+            height="16"
+            class="mb-1"
+          />
+          <h6 class="mb-0">{{ item.produto.nome }}</h6>
+          <p class="text-muted small mb-2">{{ item.produto.medida }}</p>
+          <app-quantity-input
+            [quantidade]="item.quantidade"
+            (quantidadeChange)="alterarQuantidade(item.produto.id, $event)"
+          />
+        </div>
 
-            <div class="col-8 col-md-3 order-3 order-md-2">
-              <span class="fw-bold text-success">{{ item.produto.precoAtual | currency: 'BRL' }}</span>
-            </div>
+        <div class="col-8 col-md-3 order-3 order-md-2">
+          <span class="fw-bold text-success"
+            >{{ item.produto.precoAtual | currency: 'BRL' }}</span
+          >
+        </div>
 
-            <div class="col-4 col-md-1 order-2 order-md-3 text-end">
-              <button
-                type="button"
-                class="btn btn-outline-danger btn-sm"
-                (click)="removerItem(item.produto.id)"
-                [attr.aria-label]="'Remover ' + item.produto.nome + ' do carrinho'"
-              >
-                <i class="fas fa-trash"></i>
-              </button>
-            </div>
-          </div>
-        }
+        <div class="col-4 col-md-1 order-2 order-md-3 text-end">
+          <button
+            type="button"
+            class="btn btn-outline-danger btn-sm"
+            (click)="removerItem(item.produto.id)"
+            [attr.aria-label]="'Remover ' + item.produto.nome + ' do carrinho'"
+          >
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
       </div>
+      }
+    </div>
     }
 
     <hr />
@@ -60,11 +66,18 @@
     </div>
 
     <div class="d-grid gap-2">
-      <a routerLink="/" class="btn btn-outline-primary" mdbRipple>Continuar comprando</a>
+      <a routerLink="/" class="btn btn-outline-primary" mdbRipple
+        >Continuar comprando</a
+      >
       @if (itens().length > 0) {
-        <button type="button" class="btn btn-primary" mdbRipple (click)="finalizarCompra()">
-          Finalizar compra
-        </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        mdbRipple
+        (click)="finalizarCompra()"
+      >
+        Finalizar compra
+      </button>
       }
     </div>
   </div>

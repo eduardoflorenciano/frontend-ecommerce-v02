@@ -7,7 +7,7 @@
     (ngModelChange)="quantidade.set($event)"
   >
     @for (opcao of opcoes(); track opcao) {
-      <option [value]="opcao">{{ opcao }}</option>
+    <option [value]="opcao">{{ opcao }}</option>
     }
   </select>
 </div>

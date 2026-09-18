@@ -1,5 +1,7 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { switchMap } from 'rxjs';
 import { ProdutoResumo } from '../../models/produto.model';
 import { ProdutoService } from '../../services/produto.service';
 import { ProductCard } from '../product-card/product-card';
@@ -9,6 +11,7 @@ type Ordenacao = 'relevancia' | 'mais-barato' | 'mais-caro' | 'ordem-alfabetica'
 const ITENS_POR_PAGINA = 4;
 
 @Component({
+  standalone: true,
   selector: 'app-catalogo-busca',
   imports: [RouterLink, ProductCard],
   templateUrl: './catalogo-busca.html',
@@ -41,8 +44,15 @@ export class CatalogoBusca {
     return '';
   });
 
+  private readonly produtosBase = toSignal(
+    toObservable(this.termoPesquisado).pipe(
+      switchMap((termo) => this.produtoService.buscarProdutos(termo)),
+    ),
+    { initialValue: [] as ProdutoResumo[] },
+  );
+
   protected readonly produtosEncontrados = computed(() =>
-    this.ordenarProdutos(this.produtoService.buscarProdutos(this.termoPesquisado()), this.ordenacao()),
+    this.ordenarProdutos(this.produtosBase(), this.ordenacao()),
   );
 
   protected readonly totalPaginas = computed(() =>

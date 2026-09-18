@@ -1,11 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
+import { ProdutoResumo } from '../../models/produto.model';
 import { MarcaService } from '../../services/marca.service';
 import { ProdutoService } from '../../services/produto.service';
 import { SecaoProdutos } from '../secao-produtos/secao-produtos';
 
 @Component({
+  standalone: true,
   selector: 'app-home',
   imports: [MdbRippleModule, SecaoProdutos],
   templateUrl: './home.html',
@@ -16,8 +19,10 @@ export class Home {
   private readonly marcaService = inject(MarcaService);
   private readonly router = inject(Router);
 
-  protected readonly produtosPromocao = this.produtoService.obterProdutosPromocao();
-  protected readonly produtosMaisVendidos = this.produtoService.obterProdutosMaisVendidos();
+  protected readonly produtosDestaque = toSignal(this.produtoService.listarTodos(), {
+    initialValue: [] as ProdutoResumo[],
+  });
+
   protected readonly marcas = this.marcaService.obterMarcas();
 
   protected readonly larguras = [

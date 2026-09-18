@@ -3,8 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
 import { CarrinhoService } from '../../services/carrinho.service';
+import { SessaoService } from '../../services/sessao.service';
 
 @Component({
+  standalone: true,
   selector: 'app-header',
   imports: [RouterLink, FormsModule, MdbDropdownModule],
   templateUrl: './header.html',
@@ -13,6 +15,7 @@ import { CarrinhoService } from '../../services/carrinho.service';
 export class Header {
   private readonly router = inject(Router);
   protected readonly carrinhoService = inject(CarrinhoService);
+  protected readonly sessaoService = inject(SessaoService);
 
   protected termoBusca = '';
 

@@ -1,18 +1,18 @@
 import { Component, HostListener, signal } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-floating-actions',
   imports: [],
   templateUrl: './floating-actions.html',
   styleUrl: './floating-actions.scss',
 })
 export class FloatingActions {
-
   private readonly numeroWhatsapp = '554599051549';
-  private readonly mensagemWhatsapp = 'Olá! Vim do site e gostaria de tirar uma dúvida sobre um pneu.';
+  private readonly mensagemWhatsapp =
+    'Olá! Vim do site e gostaria de tirar uma dúvida sobre um pneu';
 
-  protected readonly linkWhatsapp =
-    `https://wa.me/${this.numeroWhatsapp}?text=${encodeURIComponent(this.mensagemWhatsapp)}`;
+  protected readonly linkWhatsapp = `https://wa.me/${this.numeroWhatsapp}?text=${encodeURIComponent(this.mensagemWhatsapp)}`;
 
   protected readonly mostrarBotaoTopo = signal(false);
 

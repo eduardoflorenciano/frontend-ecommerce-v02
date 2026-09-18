@@ -3,6 +3,7 @@ import { ProdutoResumo } from '../../models/produto.model';
 import { ProductCard } from '../product-card/product-card';
 
 @Component({
+  standalone: true,
   selector: 'app-secao-produtos',
   imports: [ProductCard],
   templateUrl: './secao-produtos.html',

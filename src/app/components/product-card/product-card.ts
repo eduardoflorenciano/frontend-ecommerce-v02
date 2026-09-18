@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { ProdutoResumo } from '../../models/produto.model';
 
 @Component({
+  standalone: true,
   selector: 'app-product-card',
   imports: [RouterLink, CurrencyPipe],
   templateUrl: './product-card.html',

@@ -1,13 +1,13 @@
 <div class="card h-100 shadow-sm product-card">
   <div class="position-relative">
     @if (produto().percentualDesconto > 0) {
-      <span class="badge bg-success position-absolute top-0 start-0 m-2">
-        {{ produto().percentualDesconto }}% OFF
-      </span>
+    <span class="badge bg-success position-absolute top-0 start-0 m-2">
+      {{ produto().percentualDesconto }}% OFF
+    </span>
     } @else if (produto().rotulo) {
-      <span class="badge bg-dark position-absolute top-0 start-0 m-2">
-        {{ produto().rotulo }}
-      </span>
+    <span class="badge bg-dark position-absolute top-0 start-0 m-2">
+      {{ produto().rotulo }}
+    </span>
     }
     <img
       [src]="produto().imagemUrl"
@@ -29,17 +29,21 @@
     <p class="text-muted small mb-2">{{ produto().medida }}</p>
 
     @if (produto().percentualDesconto > 0) {
-      <del class="text-danger small">{{ produto().precoOriginal | currency: 'BRL' }}</del>
+    <del class="text-danger small"
+      >{{ produto().precoOriginal | currency: 'BRL' }}</del
+    >
     }
     <p class="fw-bold text-success fs-5 mb-0">
       {{ produto().precoAtual | currency: 'BRL' }}
       <span class="fw-normal small d-block d-sm-inline">à vista no Pix</span>
     </p>
     <p class="small text-muted mb-3">
-      ou {{ produto().parcelas.quantidade }}x de {{ produto().parcelas.valor | currency: 'BRL' }} sem
-      juros
+      ou {{ produto().parcelas.quantidade }}x de {{ produto().parcelas.valor |
+      currency: 'BRL' }} sem juros
     </p>
 
-    <a [routerLink]="['/produto', produto().id]" class="btn btn-primary mt-auto">Ver detalhes</a>
+    <a [routerLink]="['/produto', produto().id]" class="btn btn-primary mt-auto"
+      >Ver detalhes</a
+    >
   </div>
 </div>

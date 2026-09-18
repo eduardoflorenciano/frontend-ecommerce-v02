@@ -1,0 +1,115 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4"></div>
+
+    <div class="col-lg-4 centralizar topo">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="titulo">Acesse sua conta</h3>
+          <br />
+
+          <mdb-form-control>
+            <input
+              mdbInput
+              type="text"
+              id="usuario"
+              class="form-control"
+              [(ngModel)]="form.nome"
+              name="nome"
+            />
+            <label mdbLabel class="form-label" for="form1"
+              >Insira seu nome</label
+            >
+          </mdb-form-control>
+
+          <br />
+
+          <mdb-form-control>
+            <input
+              mdbInput
+              type="text"
+              id="telefone"
+              class="form-control"
+              [(ngModel)]="form.telefone"
+              name="telefone"
+            />
+            <label mdbLabel class="form-label" for="form1"
+              >Insira seu telefone</label
+            >
+          </mdb-form-control>
+
+          <br />
+
+          <mdb-form-control>
+            <input
+              mdbInput
+              type="password"
+              id="senha"
+              class="form-control"
+              [(ngModel)]="form.senha"
+              name="senha"
+            />
+            <label mdbLabel class="form-label" for="form1"
+              >Insira sua senha</label
+            >
+          </mdb-form-control>
+          <br />
+          <a class="fs-6" (click)="abrirNovaSenha()"
+            >Esqueceu a senha?
+            <div class="alterarSenha">Clique aqui</div></a
+          >
+
+          <div class="botoes">
+            <button
+              type="button"
+              class="btn btn-secondary btn-rounded entrar"
+              mdbRipple
+              (click)="salvarItem()"
+            >
+              Entrar
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-danger btn-rounded cadastrar"
+              mdbRipple
+              (click)="abrirCadastro()"
+            >
+              Não tem conta? Cadastre-se
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalLogin>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Campo de cadastro</h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modalLoginRef.close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-logindatails (retorno)="retornoDetalhe($event)"></app-logindatails>
+  </div>
+</ng-template>
+
+<ng-template #modalSenha>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Campo para alterar senha</h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modalSenhaRef.close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-alterar-senha (retorno)="retornoNovaSenha()"></app-alterar-senha>
+  </div>
+</ng-template>

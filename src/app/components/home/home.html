@@ -12,7 +12,7 @@
       <select id="largura" #larguraSelect class="form-select" required>
         <option value="" selected disabled hidden>Largura</option>
         @for (largura of larguras; track largura) {
-          <option [value]="largura">{{ largura }}</option>
+        <option [value]="largura">{{ largura }}</option>
         }
       </select>
     </div>
@@ -22,7 +22,7 @@
       <select id="perfil" #perfilSelect class="form-select" required>
         <option value="" selected disabled hidden>Perfil</option>
         @for (perfil of perfis; track perfil) {
-          <option [value]="perfil">{{ perfil }}</option>
+        <option [value]="perfil">{{ perfil }}</option>
         }
       </select>
     </div>
@@ -32,35 +32,37 @@
       <select id="aro" #aroSelect class="form-select" required>
         <option value="" selected disabled hidden>Aro</option>
         @for (aro of aros; track aro) {
-          <option [value]="aro">{{ aro }}</option>
+        <option [value]="aro">{{ aro }}</option>
         }
       </select>
     </div>
 
     <div class="col">
-      <button type="submit" class="btn btn-primary w-100" mdbRipple>Buscar</button>
+      <button type="submit" class="btn btn-primary w-100" mdbRipple>
+        Buscar
+      </button>
     </div>
   </form>
 </section>
 
-<app-secao-produtos class="container d-block my-5" titulo="Promoções" [produtos]="produtosPromocao" />
+<app-secao-produtos
+  class="container d-block my-5"
+  titulo="Destaques do catálogo"
+  [produtos]="produtosDestaque()"
+/>
 
 <section class="bg-light py-5">
   <div class="container text-center">
     <h4 class="mb-4">Principais marcas</h4>
-    <div class="d-flex flex-wrap justify-content-center align-items-center gap-5">
+    <div
+      class="d-flex flex-wrap justify-content-center align-items-center gap-5"
+    >
       @for (marca of marcas; track marca.nome) {
-        <img [src]="marca.logoUrl" [alt]="marca.nome" class="logo-marca" />
+      <img [src]="marca.logoUrl" [alt]="marca.nome" class="logo-marca" />
       }
     </div>
   </div>
 </section>
-
-<app-secao-produtos
-  class="container d-block my-5"
-  titulo="Mais vendidos"
-  [produtos]="produtosMaisVendidos"
-/>
 
 <section class="container my-5">
   <h4 class="mb-4">Confira a medida do pneu do seu carro</h4>
@@ -74,22 +76,26 @@
     </div>
     <div class="col-md-7">
       <p>
-        Saber ler a medida do pneu é fundamental na hora da compra. Todo pneu tem uma medida
-        específica. No exemplo mostramos como a medida 205/55 R16 pode ser encontrada no seu pneu,
-        e também o seu significado:
+        Saber ler a medida do pneu é fundamental na hora da compra. Todo pneu
+        tem uma medida específica. No exemplo mostramos como a medida 205/55 R16
+        pode ser encontrada no seu pneu, e também o seu significado:
       </p>
       <p>
-        <strong>205</strong> – Largura do pneu em milímetros. Neste caso, este pneu tem a largura
-        de 205 mm, ou 20,50 centímetros.
+        <strong>205</strong> – Largura do pneu em milímetros. Neste caso, este
+        pneu tem a largura de 205 mm, ou 20,50 centímetros.
       </p>
       <p>
-        <strong>55</strong> – Perfil. Ele é o percentual da largura do pneu. Neste exemplo, a
-        medida 55 representa 55% da largura do pneu.
+        <strong>55</strong> – Perfil. Ele é o percentual da largura do pneu.
+        Neste exemplo, a medida 55 representa 55% da largura do pneu.
       </p>
-      <p><strong>R</strong> – Tipo de construção do pneu. Neste caso, o "R" significa radial.</p>
       <p>
-        <strong>16</strong> – Diâmetro interno do pneu, em polegadas (= diâmetro do aro). Neste
-        exemplo, são 16 polegadas, que convertendo significa 40,64 cm.
+        <strong>R</strong> – Tipo de construção do pneu. Neste caso, o "R"
+        significa radial.
+      </p>
+      <p>
+        <strong>16</strong> – Diâmetro interno do pneu, em polegadas (= diâmetro
+        do aro). Neste exemplo, são 16 polegadas, que convertendo significa
+        40,64 cm.
       </p>
     </div>
   </div>
@@ -98,12 +104,13 @@
 <section class="container my-5">
   <h4 class="mb-3">Saiba mais sobre a etiqueta do Inmetro</h4>
   <p>
-    A etiqueta do Inmetro, do Programa Brasileiro de Etiquetagem (PBE), tem como objetivo fornecer
-    ao consumidor informações sobre o desempenho dos pneus. Os pneus novos devem vir com a
-    etiqueta, isso garante que todos os produtos passaram pelo rigoroso teste de qualidade. Exceto
-    pneus que possuem a aplicação e utilização para terrenos off-road (M/T), os quais são isentos
-    dos parâmetros base indicados pelo Inmetro, pois sua utilização necessita de características
-    específicas voltadas para a performance off-road.
+    A etiqueta do Inmetro, do Programa Brasileiro de Etiquetagem (PBE), tem como
+    objetivo fornecer ao consumidor informações sobre o desempenho dos pneus. Os
+    pneus novos devem vir com a etiqueta, isso garante que todos os produtos
+    passaram pelo rigoroso teste de qualidade. Exceto pneus que possuem a
+    aplicação e utilização para terrenos off-road (M/T), os quais são isentos
+    dos parâmetros base indicados pelo Inmetro, pois sua utilização necessita de
+    características específicas voltadas para a performance off-road.
   </p>
   <img
     src="/significado-especificacoes-inmetro.png"

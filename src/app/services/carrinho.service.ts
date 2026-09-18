@@ -37,4 +37,8 @@ export class CarrinhoService {
   removerItem(produtoId: string): void {
     this.itensSignal.update((itens) => itens.filter((item) => item.produto.id !== produtoId));
   }
+
+  esvaziar(): void {
+    this.itensSignal.set([]);
+  }
 }

@@ -1,112 +1,120 @@
 <div class="container my-4">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a routerLink="/">Início</a></li>
-      <li class="breadcrumb-item"><a href="javascript:void(0)">Aro 13</a></li>
-      <li class="breadcrumb-item active" aria-current="page">
-        {{ produto.nome }} {{ produto.medida }}
-      </li>
-    </ol>
-  </nav>
+  @if (produto(); as p) {
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/">Início</a></li>
+        <li class="breadcrumb-item"><a routerLink="/busca">Pneus</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ p.nome }} {{ p.medida }}</li>
+      </ol>
+    </nav>
 
-  <div class="row g-4 align-items-stretch">
-    <div class="col-md-5 d-flex align-items-center justify-content-center">
-      <img [src]="produto.imagemUrl" [alt]="produto.nome" class="img-fluid" />
-    </div>
+    <div class="row g-4 align-items-stretch">
+      <div class="col-md-5 d-flex align-items-center justify-content-center">
+        <img [src]="p.imagemUrl" [alt]="p.nome" class="img-fluid" />
+      </div>
 
-    <div class="col-md-7">
-      <div class="info-produto p-4 h-100 d-flex flex-column">
-        <img
-          [src]="produto.logoMarcaUrl"
-          [alt]="'Logo ' + produto.marca"
-          height="28"
-          class="mb-2 align-self-start"
-        />
+      <div class="col-md-7">
+        <div class="info-produto p-4 h-100 d-flex flex-column">
+          <img [src]="p.logoMarcaUrl" [alt]="'Logo ' + p.marca" height="28" class="mb-2 align-self-start" />
 
-        <h1 class="h4 fw-bold mb-0">{{ produto.nome }}</h1>
-        <p class="text-muted">{{ produto.medida }}</p>
+          <h1 class="h4 fw-bold mb-0">{{ p.nome }}</h1>
+          <p class="text-muted">{{ p.medida }}</p>
 
-        <hr />
+          <hr />
 
-        <div class="d-flex align-items-center gap-2 mb-1">
-          <del class="text-danger">{{ produto.precoOriginal | currency: 'BRL' }}</del>
-          <span class="badge bg-success">{{ produto.percentualDesconto }}% OFF</span>
-        </div>
-        <p class="fs-3 fw-bold text-success mb-0">
-          {{ produto.precoAtual | currency: 'BRL' }}
-          <span class="fs-6 fw-normal">à vista no Pix</span>
-        </p>
-        <p class="small text-muted">
-          ou {{ produto.parcelas.quantidade }}x de {{ produto.parcelas.valor | currency: 'BRL' }}
-          sem juros
-        </p>
+          @if (p.percentualDesconto > 0) {
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <del class="text-danger">{{ p.precoOriginal | currency: 'BRL' }}</del>
+              <span class="badge bg-success">{{ p.percentualDesconto }}% OFF</span>
+            </div>
+          }
+          <p class="fs-3 fw-bold text-success mb-0">
+            {{ p.precoAtual | currency: 'BRL' }}
+            <span class="fs-6 fw-normal">à vista no Pix</span>
+          </p>
+          <p class="small text-muted">
+            ou {{ p.parcelas.quantidade }}x de {{ p.parcelas.valor | currency: 'BRL' }} sem juros
+          </p>
 
-        <app-quantity-input class="my-3" [(quantidade)]="quantidade" />
+          @if (p.quantidadeEstoque > 0) {
+            <p class="small text-muted">Em estoque: {{ p.quantidadeEstoque }} unidade(s)</p>
+            <app-quantity-input class="my-3" [(quantidade)]="quantidade" [max]="p.quantidadeEstoque" />
+          } @else {
+            <p class="small text-danger fw-bold my-3">Produto esgotado no momento.</p>
+          }
 
-        <div class="d-flex flex-column flex-sm-row gap-2 mt-auto">
-          <button
-            type="button"
-            class="btn btn-primary flex-fill"
-            mdbRipple
-            (click)="adicionarAoCarrinho()"
-          >
-            Adicionar ao Carrinho
-          </button>
-          <button type="button" class="btn btn-success flex-fill" mdbRipple (click)="comprarAgora()">
-            Comprar Agora
-          </button>
+          <div class="d-flex flex-column flex-sm-row gap-2 mt-auto">
+            <button
+              type="button"
+              class="btn btn-primary flex-fill"
+              mdbRipple
+              [disabled]="p.quantidadeEstoque <= 0"
+              (click)="adicionarAoCarrinho()"
+            >
+              Adicionar ao Carrinho
+            </button>
+            <button
+              type="button"
+              class="btn btn-success flex-fill"
+              mdbRipple
+              [disabled]="p.quantidadeEstoque <= 0"
+              (click)="comprarAgora()"
+            >
+              Comprar Agora
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <mdb-tabs [fill]="true" class="mt-5">
-    <mdb-tab title="INFORMAÇÕES TÉCNICAS">
-      <table class="table table-striped">
-        <tbody>
-          @for (item of produto.especificacoes; track item.label) {
-            <tr>
-              <td><strong>{{ item.label }}:</strong> {{ item.valor }}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    <mdb-tabs [fill]="true" class="mt-5">
+      <mdb-tab title="INFORMAÇÕES TÉCNICAS">
+        <table class="table table-striped">
+          <tbody>
+            @for (item of p.especificacoes; track item.label) {
+              <tr>
+                <td><strong>{{ item.label }}:</strong> {{ item.valor }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
 
-      <p class="fw-bold mt-4">INMETRO</p>
-      <img
-        [src]="produto.imagemInmetroUrl"
-        alt="Selo do Inmetro"
-        class="img-fluid"
-        style="max-width: 320px"
-      />
-    </mdb-tab>
+        <p class="fw-bold mt-4">INMETRO</p>
+        <img [src]="p.imagemInmetroUrl" alt="Selo do Inmetro" class="img-fluid" style="max-width: 320px" />
+      </mdb-tab>
 
-    <mdb-tab title="SOBRE O PRODUTO">
-      <p class="fw-bold">{{ produto.nome }} {{ produto.medida }}</p>
+      <mdb-tab title="SOBRE O PRODUTO">
+        <p class="fw-bold">{{ p.nome }} {{ p.medida }}</p>
 
-      <p class="fw-bold">SOBRE O PRODUTO:</p>
-      <p>{{ produto.sobreProduto }}</p>
+        <p class="fw-bold">SOBRE O PRODUTO:</p>
+        <p>{{ p.sobreProduto }}</p>
 
-      <p class="fw-bold">SOBRE A MARCA:</p>
-      <p>{{ produto.sobreMarca }}</p>
+        <p class="fw-bold">SOBRE A MARCA:</p>
+        <p>{{ p.sobreMarca }}</p>
 
-      <p class="fw-bold">RECOMENDAÇÕES DE USO E INSTALAÇÃO:</p>
-      <p>{{ produto.recomendacoes }}</p>
-    </mdb-tab>
+        <p class="fw-bold">RECOMENDAÇÕES DE USO E INSTALAÇÃO:</p>
+        <p>{{ p.recomendacoes }}</p>
+      </mdb-tab>
 
-    <mdb-tab title="VEÍCULOS APLICÁVEIS">
-      <p>
-        Esta medida de pneu ({{ produto.medida }}) é aplicável primária para diversos carros
-        compactos e populares do mercado. Confira os principais modelos compatíveis:
-      </p>
-      <ul>
-        @for (veiculo of produto.veiculosCompativeis; track veiculo.marca) {
-          <li><strong>{{ veiculo.marca }}: </strong>{{ veiculo.modelos }}</li>
+      <mdb-tab title="VEÍCULOS APLICÁVEIS">
+        @if (p.veiculosCompativeis.length > 0) {
+          <p>
+            Confira os veículos já cadastrados como compatíveis com a medida {{ p.medida }}:
+          </p>
+          <ul>
+            @for (veiculo of p.veiculosCompativeis; track veiculo.marca) {
+              <li><strong>{{ veiculo.marca }}: </strong>{{ veiculo.modelos }}</li>
+            }
+          </ul>
+        } @else {
+          <p>Ainda não há veículos cadastrados como compatíveis com esta medida.</p>
         }
-      </ul>
-      <p><strong>Aviso de Compatibilidade: </strong>{{ produto.avisoCompatibilidade }}</p>
-    </mdb-tab>
-  </mdb-tabs>
+        <p><strong>Aviso de Compatibilidade: </strong>{{ p.avisoCompatibilidade }}</p>
+      </mdb-tab>
+    </mdb-tabs>
 
-  <app-secao-produtos class="mt-5 d-block" titulo="Promoções" [produtos]="produtosRelacionados" />
+    <app-secao-produtos class="mt-5 d-block" titulo="Outros produtos" [produtos]="outrosProdutos()" />
+  } @else {
+    <p class="text-center text-muted py-5">Carregando produto...</p>
+  }
 </div>

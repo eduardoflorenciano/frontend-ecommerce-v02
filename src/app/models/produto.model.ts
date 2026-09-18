@@ -35,4 +35,5 @@ export interface Produto extends ProdutoResumo {
   veiculosCompativeis: VeiculoCompativel[];
   avisoCompatibilidade: string;
   imagemInmetroUrl: string;
+  quantidadeEstoque: number;
 }

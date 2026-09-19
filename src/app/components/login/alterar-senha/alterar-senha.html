@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 centralizar topo">
+      <div class="card">
+        <div class="card-body">
+
+          <h3 class="titulo">Alteração de senha</h3>
+
+          <br />
+
+          <mdb-form-control>
+            <input
+              mdbInput
+              type="text"
+              id="nome"
+              class="form-control"
+              [(ngModel)]="form.nome"
+              name="nome"
+            />
+
+            <label mdbLabel class="form-label" for="nome">
+              Insira seu nome
+            </label>
+          </mdb-form-control>
+
+          <br />
+
+          <mdb-form-control>
+            <input
+              mdbInput
+              type="password"
+              id="senha"
+              class="form-control"
+              [(ngModel)]="form.senha"
+              name="senha"
+            />
+
+            <label mdbLabel class="form-label" for="senha">
+              Insira sua senha
+            </label>
+          </mdb-form-control>
+
+          <br />
+
+          <mdb-form-control>
+            <input
+              mdbInput
+              type="password"
+              id="confirmarSenha"
+              class="form-control"
+              [(ngModel)]="form.confirmarSenha"
+              name="confirmarSenha"
+            />
+
+            <label mdbLabel class="form-label" for="confirmarSenha">
+              Confirme sua senha
+            </label>
+          </mdb-form-control>
+
+          <br />
+
+          <div class="botoes">
+            <button
+              type="button"
+              class="btn btn-primary btn-rounded entrar"
+              mdbRipple
+              (click)="salvarSenha()"
+            >
+              Mudar senha
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

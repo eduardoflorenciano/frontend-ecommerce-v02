@@ -1,0 +1,20 @@
+<a
+  class="botao-flutuante whatsapp"
+  [href]="linkWhatsapp"
+  target="_blank"
+  rel="noopener"
+  aria-label="Conversar no WhatsApp"
+>
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+@if (mostrarBotaoTopo()) {
+<button
+  type="button"
+  class="botao-flutuante voltar-topo"
+  (click)="voltarAoTopo()"
+  aria-label="Voltar ao topo da página"
+>
+  <i class="fas fa-chevron-up"></i>
+</button>
+}

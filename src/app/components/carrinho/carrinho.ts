@@ -62,7 +62,7 @@ export class Carrinho {
       Swal.fire({
         icon: 'warning',
         title: 'Não foi possível identificar sua conta',
-        text: 'Cadastre-se novamente para finalizar a compra, ou peça para o time do back-end incluir o id na resposta de login',
+        text: 'Faça login novamente para finalizar a compra',
       });
       return;
     }

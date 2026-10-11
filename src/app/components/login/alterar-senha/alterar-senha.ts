@@ -32,7 +32,7 @@ export class AlterarSenha {
       Swal.fire({
         icon: 'warning',
         title: 'Não foi possível identificar sua conta',
-        text: 'Cadastre-se novamente ou peça para o time do back-end incluir o id na resposta de login',
+        text: 'Faça login novamente e tente de novo',
       });
       return;
     }

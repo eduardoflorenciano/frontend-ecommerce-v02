@@ -8,7 +8,7 @@ export class LoginlistService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = '/api/clientes';
 
-  logar(item: Loginlistmodel): Observable<{ nome: string; mensagem: string }> {
-    return this.http.post<{ nome: string; mensagem: string }>(`${this.apiUrl}/login`, item);
+  logar(item: Loginlistmodel): Observable<{ id: number; nome: string; mensagem: string }> {
+    return this.http.post<{ id: number; nome: string; mensagem: string }>(`${this.apiUrl}/login`, item);
   }
 }

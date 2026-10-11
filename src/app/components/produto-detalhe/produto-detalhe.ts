@@ -8,6 +8,7 @@ import { map, switchMap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { ProdutoResumo } from '../../models/produto.model';
 import { CarrinhoService } from '../../services/carrinho.service';
+import { CotacaoService } from '../../services/cotacao.service';
 import { ProdutoService } from '../../services/produto.service';
 import { QuantityInput } from '../quantity-input/quantity-input';
 import { SecaoProdutos } from '../secao-produtos/secao-produtos';
@@ -30,6 +31,7 @@ const Toast = Swal.mixin({
 export class ProdutoDetalhe {
   private readonly produtoService = inject(ProdutoService);
   private readonly carrinhoService = inject(CarrinhoService);
+  private readonly cotacaoService = inject(CotacaoService);
   private readonly router = inject(Router);
 
   readonly id = input.required<string>();
@@ -46,6 +48,29 @@ export class ProdutoDetalhe {
   );
 
   protected readonly quantidade = signal(1);
+
+  protected readonly precoEmDolar = signal<number | undefined>(undefined);
+  protected readonly consultandoCotacao = signal(false);
+
+  protected consultarPrecoEmDolar(): void {
+    const produto = this.produto();
+    if (!produto || this.consultandoCotacao()) {
+      return;
+    }
+
+    this.consultandoCotacao.set(true);
+    this.cotacaoService.converterParaDolar(produto.id).subscribe({
+      next: (valor) => {
+        this.precoEmDolar.set(valor);
+        this.consultandoCotacao.set(false);
+      },
+      error: (erro) => {
+        console.error('Erro ao consultar cotação:', erro);
+        this.consultandoCotacao.set(false);
+        Toast.fire({ icon: 'error', title: 'Não foi possível consultar a cotação agora' });
+      },
+    });
+  }
 
   protected adicionarAoCarrinho(): void {
     const produto = this.produto();

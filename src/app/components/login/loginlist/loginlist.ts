@@ -61,7 +61,7 @@ export class Loginlist {
 
     this.loginlistService.logar(credenciais).subscribe({
       next: (resposta) => {
-        this.sessaoService.entrar({ id: null, nome: resposta.nome });
+        this.sessaoService.entrar({ id: resposta.id, nome: resposta.nome });
         Swal.fire({
           icon: 'success',
           title: 'Login realizado!',

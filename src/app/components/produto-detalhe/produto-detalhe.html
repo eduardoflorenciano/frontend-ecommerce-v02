@@ -36,11 +36,24 @@
             ou {{ p.parcelas.quantidade }}x de {{ p.parcelas.valor | currency: 'BRL' }} sem juros
           </p>
 
+          @if (precoEmDolar(); as valorDolar) {
+            <p class="small text-muted">≈ US$ {{ valorDolar.toFixed(2) }} (cotação do dia)</p>
+          } @else {
+            <button
+              type="button"
+              class="btn btn-link btn-sm p-0 text-decoration-none align-self-start"
+              [disabled]="consultandoCotacao()"
+              (click)="consultarPrecoEmDolar()"
+            >
+              {{ consultandoCotacao() ? 'Consultando cotação...' : 'Ver preço em dólar' }}
+            </button>
+          }
+
           @if (p.quantidadeEstoque > 0) {
             <p class="small text-muted">Em estoque: {{ p.quantidadeEstoque }} unidade(s)</p>
             <app-quantity-input class="my-3" [(quantidade)]="quantidade" [max]="p.quantidadeEstoque" />
           } @else {
-            <p class="small text-danger fw-bold my-3">Produto esgotado no momento.</p>
+            <p class="small text-danger fw-bold my-3">Produto esgotado no momento</p>
           }
 
           <div class="d-flex flex-column flex-sm-row gap-2 mt-auto">
@@ -107,7 +120,7 @@
             }
           </ul>
         } @else {
-          <p>Ainda não há veículos cadastrados como compatíveis com esta medida.</p>
+          <p>Ainda não há veículos cadastrados como compatíveis com esta medida</p>
         }
         <p><strong>Aviso de Compatibilidade: </strong>{{ p.avisoCompatibilidade }}</p>
       </mdb-tab>

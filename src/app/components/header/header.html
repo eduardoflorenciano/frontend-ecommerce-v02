@@ -48,17 +48,17 @@
           >
             @if (sessaoService.cliente(); as cliente) {
               <li><span class="dropdown-item-text fw-bold">Olá, {{ cliente.nome }}</span></li>
-              <li><a class="dropdown-item" href="javascript:void(0)">Meus pedidos</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0)">Meu histórico</a></li>
               @if (cliente.id) {
                 <li>
                   <a class="dropdown-item text-danger" href="javascript:void(0)" (click)="excluirConta()">
-                    Excluir minha conta
+                    Desativar minha conta
                   </a>
                 </li>
               }
               <li><hr class="dropdown-divider" /></li>
               <li>
-                <a class="dropdown-item" href="javascript:void(0)" (click)="sessaoService.sair()">Sair</a>
+                <a class="dropdown-item" href="javascript:void(0)" (click)="sessaoService.sair()">Sair do login</a>
               </li>
             } @else {
               <li><a class="dropdown-item" routerLink="/login">Entrar</a></li>

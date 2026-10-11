@@ -38,10 +38,10 @@ export class Header {
 
     Swal.fire({
       icon: 'warning',
-      title: 'Excluir sua conta?',
+      title: 'Desativar sua conta?',
       text: 'Essa ação desativa seu cadastro na loja. Não é possível desfazer por aqui',
       showCancelButton: true,
-      confirmButtonText: 'Sim, excluir',
+      confirmButtonText: 'Sim, desativar',
       cancelButtonText: 'Cancelar',
     }).then((resultado) => {
       if (!resultado.isConfirmed) {
@@ -52,13 +52,13 @@ export class Header {
         next: () => {
           this.sessaoService.sair();
           this.router.navigate(['/']);
-          Swal.fire({ icon: 'success', title: 'Conta excluída', text: 'Sua conta foi desativada' });
+          Swal.fire({ icon: 'success', title: 'Conta desativada', text: 'Sua conta foi desativada' });
         },
         error: (erro) => {
-          console.error('Erro ao excluir conta:', erro);
+          console.error('Erro ao desativar conta:', erro);
           Swal.fire({
             icon: 'error',
-            title: 'Não foi possível excluir sua conta',
+            title: 'Não foi possível desativar sua conta',
             text: erro?.error?.message ?? 'Tente novamente em instantes',
           });
         },

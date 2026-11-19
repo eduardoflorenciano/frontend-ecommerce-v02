@@ -34,16 +34,18 @@ export class ProdutoDetalhe {
   private readonly cotacaoService = inject(CotacaoService);
   private readonly router = inject(Router);
 
-  readonly id = input.required<string>();
+  readonly slug = input.required<string>();
 
   protected readonly produto = toSignal(
-    toObservable(this.id).pipe(switchMap((id) => this.produtoService.obterProdutoPorId(id))),
+    toObservable(this.slug).pipe(
+      switchMap((slug) => this.produtoService.obterProdutoPorSlug(slug)),
+    ),
   );
 
   protected readonly outrosProdutos = toSignal(
     this.produtoService
       .listarTodos()
-      .pipe(map((produtos) => produtos.filter((item) => item.id !== this.id()))),
+      .pipe(map((produtos) => produtos.filter((item) => item.slug !== this.slug()))),
     { initialValue: [] as ProdutoResumo[] },
   );
 

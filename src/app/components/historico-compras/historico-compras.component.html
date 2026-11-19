@@ -1,0 +1,154 @@
+<div class="historico-container">
+  <div class="pagina-cabecalho">
+    <div>
+      <span class="subtitulo">MINHA CONTA</span>
+      <h1>Histórico de compras</h1>
+      <p>Acompanhe suas solicitações e consulte os detalhes dos seus pedidos</p>
+    </div>
+
+    <button class="btn-voltar" routerLink="/">
+      <i class="bi bi-arrow-left"></i>
+      Voltar à loja
+    </button>
+  </div>
+
+  @if (carregando) {
+    <div class="estado-carregamento">
+      <div class="spinner"></div>
+      <p>Carregando seus pedidos</p>
+    </div>
+  }
+
+  @if (!carregando && erro) {
+    <div class="estado-vazio erro">
+      <i class="bi bi-exclamation-circle"></i>
+      <h3>Não foi possível carregar</h3>
+      <p>{{ erro }}</p>
+      <button class="btn-primario" (click)="carregarPedidos()">Tentar novamente</button>
+    </div>
+  }
+
+  @if (!carregando && !erro && pedidos.length === 0) {
+    <div class="estado-vazio">
+      <i class="bi bi-bag-x"></i>
+      <h3>Nenhum pedido encontrado</h3>
+      <p>Você ainda não realizou nenhuma solicitação de compra</p>
+      <button class="btn-primario" routerLink="/">Explorar produtos</button>
+    </div>
+  }
+
+  @if (!carregando && !erro && pedidos.length > 0) {
+    <div class="resumo-pedidos">
+      <div class="resumo-card">
+        <span>Total de pedidos</span>
+        <strong>{{ pedidos.length }}</strong>
+      </div>
+
+      <div class="resumo-card">
+        <span>Em andamento</span>
+        <strong>
+          {{ quantidadeEmAndamento }}
+        </strong>
+      </div>
+
+      <div class="resumo-card">
+        <span>Finalizados</span>
+        <strong>
+          {{ quantidadeFinalizados }}
+        </strong>
+      </div>
+    </div>
+
+    <div class="lista-pedidos">
+      @for (pedido of pedidos; track pedido.id) {
+        <article class="pedido-card">
+          <div class="pedido-cabecalho">
+            <div>
+              <span class="pedido-identificacao">PEDIDO #{{ pedido.id }}</span>
+              <p class="pedido-data">
+                Realizado em {{ pedido.dataPedido | date: 'dd/MM/yyyy HH:mm' }}
+              </p>
+            </div>
+
+            <span class="status" [ngClass]="'status-' + pedido.status.toLowerCase()">
+              {{ pedido.status }}
+            </span>
+          </div>
+
+          <div class="pedido-conteudo">
+            <h3>Produtos solicitados</h3>
+
+            <div class="lista-produtos">
+              @for (item of pedido.itens; track $index) {
+                <div class="produto-item">
+                  <div class="produto-informacoes">
+                    <strong>{{ item.nomeProduto }}</strong>
+                    <span>{{ item.medida }}</span>
+                    <small>Quantidade: {{ item.quantidade }}</small>
+                  </div>
+
+                  <div class="produto-preco">
+                    {{
+                      item.precoUnitario * item.quantidade | currency: 'BRL' : 'symbol' : '1.2-2'
+                    }}
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="pedido-informacoes">
+            <div>
+              <span>Vencimento da reserva</span>
+              <strong>
+                {{ pedido.dataVencimentoReserva | date: 'dd/MM/yyyy HH:mm' }}
+              </strong>
+            </div>
+
+            <div class="valor-total">
+              <span>Valor total</span>
+              <strong>
+                {{ pedido.valorTotal | currency: 'BRL' : 'symbol' : '1.2-2' }}
+              </strong>
+            </div>
+          </div>
+
+          @if (pedido.status === 'CANCELADO') {
+            <div class="cancelamento-info">
+              <strong>Informações do cancelamento</strong>
+
+              <p>
+                <b>Data:</b>
+                {{ pedido.dataCancelamento | date: 'dd/MM/yyyy HH:mm' }}
+              </p>
+
+              <p>
+                <b>Motivo:</b>
+                {{ pedido.motivoCancelamento || 'Não informado' }}
+              </p>
+            </div>
+          }
+
+          <div class="pedido-acoes">
+            @if (podeCancelar(pedido)) {
+              <button class="btn-cancelar" (click)="cancelarPedido(pedido)">
+                <i class="bi bi-x-circle"></i>
+                Cancelar pedido
+              </button>
+            } @else {
+              <span class="pedido-sem-acao">
+                {{
+                  pedido.status === 'FINALIZADO'
+                    ? 'Pedido concluído'
+                    : pedido.status === 'EXPIRADO'
+                      ? 'Reserva expirada'
+                      : 'Pedido cancelado'
+                }}
+              </span>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  }
+</div>

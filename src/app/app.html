@@ -1,9 +1,12 @@
-<app-header />
+@if (!isAdminRoute()) {
+  <app-header />
+}
 
 <main>
   <router-outlet />
 </main>
 
-<app-footer />
-
-<app-floating-actions />
+@if (!isAdminRoute()) {
+  <app-footer />
+  <app-floating-actions />
+}

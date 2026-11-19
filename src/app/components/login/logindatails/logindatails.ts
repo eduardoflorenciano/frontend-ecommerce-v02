@@ -39,6 +39,10 @@ export class Logindatails {
           icon: 'success',
           title: 'Cadastro feito com sucesso!',
           text: resposta.mensagem,
+          didOpen: () => {
+            const container = Swal.getContainer();
+            if (container) container.style.zIndex = '9999';
+          },
         });
       },
       error: (erro) => {
@@ -47,6 +51,10 @@ export class Logindatails {
           icon: 'error',
           title: 'Erro ao se cadastrar',
           text: erro?.error?.message ?? 'Não foi possível fazer o seu cadastro',
+          didOpen: () => {
+            const container = Swal.getContainer();
+            if (container) container.style.zIndex = '9999';
+          },
         });
       },
     });

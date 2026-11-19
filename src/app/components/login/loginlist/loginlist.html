@@ -17,9 +17,7 @@
               [(ngModel)]="form.nome"
               name="nome"
             />
-            <label mdbLabel class="form-label" for="form1"
-              >Insira seu nome</label
-            >
+            <label mdbLabel class="form-label" for="form1">Insira seu nome</label>
           </mdb-form-control>
 
           <br />
@@ -33,9 +31,7 @@
               [(ngModel)]="form.telefone"
               name="telefone"
             />
-            <label mdbLabel class="form-label" for="form1"
-              >Insira seu telefone</label
-            >
+            <label mdbLabel class="form-label" for="form1">Insira seu telefone</label>
           </mdb-form-control>
 
           <br />
@@ -49,9 +45,7 @@
               [(ngModel)]="form.senha"
               name="senha"
             />
-            <label mdbLabel class="form-label" for="form1"
-              >Insira sua senha</label
-            >
+            <label mdbLabel class="form-label" for="form1">Insira sua senha</label>
           </mdb-form-control>
           <br />
           <a class="fs-6" (click)="abrirNovaSenha()"
@@ -66,7 +60,7 @@
               mdbRipple
               (click)="salvarItem()"
             >
-              Entrar
+              <a routerLink="app-secao-produtos">Entrar</a>
             </button>
 
             <button

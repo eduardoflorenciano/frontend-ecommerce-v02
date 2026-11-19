@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
-import { EspecificacaoTecnica, Produto, ProdutoResumo, VeiculoCompativel } from '../models/produto.model';
+import {
+  EspecificacaoTecnica,
+  Produto,
+  ProdutoResumo,
+  VeiculoCompativel,
+} from '../models/produto.model';
 import {
   MedidaPesquisaRequest,
   ProdutoVariacaoPesquisaResponse,
@@ -14,14 +19,30 @@ interface MarcaVisual {
 }
 
 const MARCAS_CONHECIDAS: MarcaVisual[] = [
-  { nome: 'Linglong', logoUrl: '/linglong-logo.png', imagemUrl: '/pneu-linglong-greenmax-165-70-r13-79t.png' },
+  {
+    nome: 'Linglong',
+    logoUrl: '/linglong-logo.png',
+    imagemUrl: '/pneu-linglong-greenmax-165-70-r13-79t.png',
+  },
   { nome: 'XBRI', logoUrl: '/xbri-logo.png', imagemUrl: '/pneu-xbri-fastway-a2.png' },
   { nome: 'XBri', logoUrl: '/xbri-logo.png', imagemUrl: '/pneu-xbri-fastway-a2.png' },
   { nome: 'Firemax', logoUrl: '/firemax-logo.png', imagemUrl: '/pneu-firemax-fm601.png' },
   { nome: 'DoubleCoin', logoUrl: '/doublecoin-logo.png', imagemUrl: '/pneu-doublecoin-dc88.png' },
-  { nome: 'Bridgestone', logoUrl: '/bridgestone-Logo.png', imagemUrl: '/pneu-linglong-greenmax-165-70-r13-79t.png' },
-  { nome: 'Michelin', logoUrl: '/michelin-logo.webp', imagemUrl: '/pneu-linglong-greenmax-165-70-r13-79t.png' },
-  { nome: 'Pirelli', logoUrl: '/pirelli-logo.webp', imagemUrl: '/pneu-linglong-greenmax-165-70-r13-79t.png' },
+  {
+    nome: 'Bridgestone',
+    logoUrl: '/bridgestone-Logo.png',
+    imagemUrl: '/pneu-linglong-greenmax-165-70-r13-79t.png',
+  },
+  {
+    nome: 'Michelin',
+    logoUrl: '/michelin-logo.webp',
+    imagemUrl: '/pneu-linglong-greenmax-165-70-r13-79t.png',
+  },
+  {
+    nome: 'Pirelli',
+    logoUrl: '/pirelli-logo.webp',
+    imagemUrl: '/pneu-linglong-greenmax-165-70-r13-79t.png',
+  },
 ];
 
 const MARCA_PADRAO: MarcaVisual = {
@@ -54,7 +75,7 @@ const AVISO_COMPATIBILIDADE_PADRAO =
 @Injectable({ providedIn: 'root' })
 export class ProdutoService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = '/api/produtos';
+  private readonly apiUrl = 'http://localhost:8080/api/produtos';
 
   private pesquisarPorMedida(medida: string): Observable<ProdutoVariacaoPesquisaResponse[]> {
     const body: MedidaPesquisaRequest = { medida };
@@ -89,19 +110,34 @@ export class ProdutoService {
       map((variacao) => (variacao ? mapearParaDetalhe(variacao) : undefined)),
     );
   }
+
+  obterProdutoPorSlug(slug: string): Observable<Produto | undefined> {
+    return this.pesquisarPorMedida('/').pipe(
+      map((variacoes) => variacoes.find((variacao) => mapearParaResumo(variacao).slug === slug)),
+      map((variacao) => (variacao ? mapearParaDetalhe(variacao) : undefined)),
+    );
+  }
 }
 
 function inferirMarca(nomeProduto: string): MarcaVisual {
   const nomeNormalizado = nomeProduto.toLowerCase();
   return (
-    MARCAS_CONHECIDAS.find((marca) => nomeNormalizado.includes(marca.nome.toLowerCase())) ?? MARCA_PADRAO
+    MARCAS_CONHECIDAS.find((marca) => nomeNormalizado.includes(marca.nome.toLowerCase())) ??
+    MARCA_PADRAO
   );
 }
 
 function mapearParaResumo(variacao: ProdutoVariacaoPesquisaResponse): ProdutoResumo {
   const marca = inferirMarca(variacao.nome);
+  const medida = `${variacao.largura}/${variacao.perfil} R${variacao.aro}`;
+
+  const textoParaSlug = variacao.nome.includes(String(variacao.largura))
+    ? variacao.nome
+    : `${variacao.nome} ${medida}`;
+    
   return {
     id: String(variacao.id),
+    slug: gerarSlug(textoParaSlug),
     nome: variacao.nome,
     medida: `${variacao.largura}/${variacao.perfil} R${variacao.aro}`,
     marca: marca.nome,
@@ -141,4 +177,15 @@ function mapearParaDetalhe(variacao: ProdutoVariacaoPesquisaResponse): Produto {
     avisoCompatibilidade: AVISO_COMPATIBILIDADE_PADRAO,
     imagemInmetroUrl: '/etiqueta-inmetro.webp',
   };
+}
+
+function gerarSlug(texto: string): string {
+  return texto
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, ' ')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
 }

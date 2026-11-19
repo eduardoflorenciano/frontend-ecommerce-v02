@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { MdbModalModule, MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import Swal from 'sweetalert2';
@@ -21,6 +22,7 @@ export class Loginlist {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly loginlistService = inject(LoginlistService);
   private readonly sessaoService = inject(SessaoService);
+  private readonly router = inject(Router);
 
   @ViewChild('modalLogin') modalLogin!: TemplateRef<unknown>;
   @ViewChild('modalSenha') modalSenha!: TemplateRef<unknown>;
@@ -45,6 +47,8 @@ export class Loginlist {
     this.sessaoService.entrar({ id: cliente.id, nome: cliente.nome });
     this.modalLoginRef.close();
     this.cdr.detectChanges();
+
+    this.router.navigate(['/historico-compras']);
   }
 
   retornoNovaSenha(): void {
@@ -61,13 +65,20 @@ export class Loginlist {
 
     this.loginlistService.logar(credenciais).subscribe({
       next: (resposta) => {
-        this.sessaoService.entrar({ id: null, nome: resposta.nome });
+        this.sessaoService.entrar({ id: resposta.id, nome: resposta.nome });
+
         Swal.fire({
           icon: 'success',
           title: 'Login realizado!',
           text: resposta.mensagem,
+          confirmButtonText: 'Continuar',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.router.navigate(['/']);
+          }
         });
       },
+
       error: (erro) => {
         console.error('Erro ao entrar:', erro);
         Swal.fire({

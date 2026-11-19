@@ -32,7 +32,11 @@ export class AlterarSenha {
       Swal.fire({
         icon: 'warning',
         title: 'Não foi possível identificar sua conta',
-        text: 'Cadastre-se novamente ou peça para o time do back-end incluir o id na resposta de login',
+        text: 'Faça login novamente e tente de novo',
+        didOpen: () => {
+          const container = Swal.getContainer();
+          if (container) container.style.zIndex = '9999';
+        },
       });
       return;
     }
@@ -50,6 +54,10 @@ export class AlterarSenha {
           icon: 'success',
           title: 'Senha alterada com sucesso!',
           text: resposta.mensagem,
+          didOpen: () => {
+            const container = Swal.getContainer();
+            if (container) container.style.zIndex = '9999';
+          },
         });
       },
       error: (erro) => {
@@ -59,6 +67,10 @@ export class AlterarSenha {
           icon: 'error',
           title: 'Erro ao mudar a senha',
           text: erro?.error?.message ?? 'Não foi possível trocar a senha',
+          didOpen: () => {
+            const container = Swal.getContainer();
+            if (container) container.style.zIndex = '9999';
+          },
         });
       },
     });

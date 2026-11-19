@@ -15,6 +15,7 @@ export interface VeiculoCompativel {
 
 export interface ProdutoResumo {
   id: string;
+  slug: string;
   nome: string;
   medida: string;
   marca: string;

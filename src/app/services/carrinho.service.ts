@@ -9,11 +9,14 @@ export class CarrinhoService {
   readonly itens = this.itensSignal.asReadonly();
 
   readonly quantidadeTotal = computed(() =>
-    this.itensSignal().reduce((total, item) => total + item.quantidade, 0),
+    this.itensSignal().reduce((total) => total + 1, 0),
   );
 
   readonly valorTotal = computed(() =>
-    this.itensSignal().reduce((total, item) => total + item.produto.precoAtual * item.quantidade, 0),
+    this.itensSignal().reduce(
+      (total, item) => total + item.produto.precoAtual * item.quantidade,
+      0,
+    ),
   );
 
   adicionarItem(produto: ProdutoResumo, quantidade: number): void {
@@ -21,7 +24,9 @@ export class CarrinhoService {
       const existente = itens.find((item) => item.produto.id === produto.id);
       if (existente) {
         return itens.map((item) =>
-          item.produto.id === produto.id ? { ...item, quantidade: item.quantidade + quantidade } : item,
+          item.produto.id === produto.id
+            ? { ...item, quantidade: item.quantidade + quantidade }
+            : item,
         );
       }
       return [...itens, { produto, quantidade }];

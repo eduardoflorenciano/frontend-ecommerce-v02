@@ -1,0 +1,144 @@
+<section class="admin-pedidos">
+  <header class="pagina-header">
+    <div>
+      <h1>Gerenciamento de pedidos</h1>
+      <p>Acompanhe e gerencie as solicitações de compra</p>
+    </div>
+
+    <button class="btn-atualizar" (click)="carregarPedidos()" [disabled]="carregando">
+      ↻ Atualizar pedidos
+    </button>
+  </header>
+
+  <div class="pedidos-resumo">
+    <div class="resumo-card">
+      <span>Total de pedidos</span>
+      <strong>{{ totalPedidos }}</strong>
+    </div>
+
+    <div class="resumo-card aguardando">
+      <span>Aguardando atendimento</span>
+      <strong>{{ pedidosAguardando }}</strong>
+    </div>
+
+    <div class="resumo-card finalizados">
+      <span>Finalizados</span>
+      <strong>{{ pedidosFinalizados }}</strong>
+    </div>
+
+    <div class="resumo-card expirados">
+      <span>Expirados</span>
+      <strong>{{ pedidosExpirados }}</strong>
+    </div>
+  </div>
+
+  <div class="pedidos-lista">
+    <div class="lista-header">
+      <div>
+        <h2>Pedidos recentes</h2>
+        <p>{{ pedidosFiltrados.length }} pedido(s) encontrado(s)</p>
+      </div>
+    </div>
+
+    <div class="filtros-pedidos">
+      <input
+        type="text"
+        placeholder="Buscar por número, cliente ou produto"
+        [(ngModel)]="busca"
+      />
+
+      <select [(ngModel)]="filtroStatus">
+        <option value="TODOS">Todos os status</option>
+        <option value="SOLICITADO">Aguardando atendimento</option>
+        <option value="CONFIRMADO">Confirmados</option>
+        <option value="FINALIZADO">Finalizados</option>
+        <option value="EXPIRADO">Expirados</option>
+        <option value="CANCELADO">Cancelados</option>
+      </select>
+    </div>
+
+    <div class="estado-listagem" *ngIf="carregando">
+      <p>Carregando pedidos</p>
+    </div>
+
+    <div class="estado-listagem erro" *ngIf="!carregando && erro">
+      <p>{{ erro }}</p>
+      <button (click)="carregarPedidos()">Tentar novamente</button>
+    </div>
+
+    <div class="estado-listagem" *ngIf="!carregando && !erro && pedidosFiltrados.length === 0">
+      <h3>Nenhum pedido encontrado</h3>
+      <p>Não existem pedidos correspondentes à sua pesquisa</p>
+    </div>
+
+    <div class="pedidos-cards" *ngIf="!carregando && !erro">
+      <article class="pedido-card" *ngFor="let pedido of pedidosFiltrados; trackBy: trackByPedido">
+        <div class="pedido-card-header">
+          <div>
+            <span class="pedido-numero">Pedido #{{ pedido.id }}</span>
+            <h3>{{ pedido.nomeCliente }}</h3>
+            <small>
+              Solicitado em:
+              {{ pedido.dataPedido | date: 'dd/MM/yyyy HH:mm' }}
+            </small>
+          </div>
+
+          <span class="status" [ngClass]="pedido.status.toLowerCase()">
+            {{ formatarStatus(pedido.status) }}
+          </span>
+        </div>
+
+        <div class="pedido-itens">
+          <h4>Produtos solicitados</h4>
+
+          <div class="pedido-item" *ngFor="let item of pedido.itens">
+            <div class="produto-info">
+              <strong>{{ item.nomeProduto }}</strong>
+              <span>{{ item.medida }}</span>
+            </div>
+
+            <div class="produto-quantidade">{{ item.quantidade }}x</div>
+
+            <div class="produto-valor">
+              {{ item.precoUnitario * item.quantidade | currency: 'BRL' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="pedido-card-footer">
+          <div class="pedido-total">
+            <span>Valor total</span>
+            <strong>{{ pedido.valorTotal | currency: 'BRL' }}</strong>
+          </div>
+
+          <div
+            class="pedido-reserva"
+            *ngIf="pedido.status === 'SOLICITADO' || pedido.status === 'CONFIRMADO'"
+          >
+            <span *ngIf="!reservaVencida(pedido.dataVencimentoReserva)">
+              Reserva válida por mais
+              <strong>{{ diasRestantes(pedido.dataVencimentoReserva) }} dia(s)</strong>
+            </span>
+
+            <span class="reserva-vencida" *ngIf="reservaVencida(pedido.dataVencimentoReserva)">
+              Prazo da reserva vencido
+            </span>
+
+            <small>
+              Vencimento:
+              {{ pedido.dataVencimentoReserva | date: 'dd/MM/yyyy HH:mm' }}
+            </small>
+          </div>
+          <div
+            class="pedido-acoes"
+            *ngIf="pedido.status === 'SOLICITADO' || pedido.status === 'CONFIRMADO'"
+          >
+            <button class="btn-finalizar" (click)="confirmarPedido(pedido)">
+              ✓ Confirmar pagamento/retirada
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

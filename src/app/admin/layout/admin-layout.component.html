@@ -1,0 +1,66 @@
+<div class="admin-container">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">AS</div>
+      <div>
+        <h2>Auto Center</h2>
+        <span>Silva | Administração</span>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <span class="menu-title">MENU PRINCIPAL</span>
+
+      <nav>
+        <a
+          routerLink="/admin/pedidos"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="menu-item"
+        >
+          <span class="menu-icon">▦</span>
+          <span>Solicitações</span>
+        </a>
+
+        <a routerLink="/admin/estoque" routerLinkActive="active" class="menu-item">
+          <span class="menu-icon">▤</span>
+          <span>Estoque</span>
+        </a>
+
+        <div class="menu-item disabled">
+          <span class="menu-icon">♙</span>
+          <span>Clientes</span>
+          <small>Em breve</small>
+        </div>
+      </nav>
+    </div>
+
+    <div class="sidebar-footer">
+      <span>Painel administrativo</span>
+      <strong>Auto Center Silva</strong>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-header">
+      <div>
+        <span class="header-label">SISTEMA DE GESTÃO</span>
+        <h3>Área administrativa</h3>
+      </div>
+
+      <div class="admin-user">
+        <div class="user-avatar">{{ sessaoService.cliente()?.nome?.charAt(0)?.toUpperCase() }}</div>
+        <div>
+          <strong>{{ sessaoService.cliente()?.nome }}</strong>
+          <span>{{ sessaoService.cliente()?.perfil === 'ADM' ? 'Administrador' : 'Atendente' }}</span>
+        </div>
+        <a routerLink="/" class="btn btn-sm btn-outline-secondary ms-3">Loja</a>
+        <button type="button" class="btn btn-sm btn-outline-danger ms-2" (click)="sair()">Sair</button>
+      </div>
+    </header>
+
+    <section class="admin-content">
+      <router-outlet />
+    </section>
+  </div>
+</div>

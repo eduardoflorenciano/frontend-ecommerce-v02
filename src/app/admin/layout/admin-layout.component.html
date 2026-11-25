@@ -49,11 +49,13 @@
       </div>
 
       <div class="admin-user">
-        <div class="user-avatar">A</div>
+        <div class="user-avatar">{{ sessaoService.cliente()?.nome?.charAt(0)?.toUpperCase() }}</div>
         <div>
-          <strong>Administrador</strong>
-          <span>Gestão do sistema</span>
+          <strong>{{ sessaoService.cliente()?.nome }}</strong>
+          <span>{{ sessaoService.cliente()?.perfil === 'ADM' ? 'Administrador' : 'Atendente' }}</span>
         </div>
+        <a routerLink="/" class="btn btn-sm btn-outline-secondary ms-3">Loja</a>
+        <button type="button" class="btn btn-sm btn-outline-danger ms-2" (click)="sair()">Sair</button>
       </div>
     </header>
 

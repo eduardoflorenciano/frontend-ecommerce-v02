@@ -20,5 +20,6 @@ export interface ProdutoVariacaoPesquisaResponse {
   indiceCarga: number;
   preco: number;
   quantidadeEstoque: number;
+  quantidadeDisponivel?: number;
   carrosCompativeis: CarroPesquisaMedidaResponse[];
 }

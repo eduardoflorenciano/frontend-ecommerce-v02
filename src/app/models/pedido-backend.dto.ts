@@ -4,7 +4,6 @@ export interface ProdutoPedidoRequest {
 }
 
 export interface PedidoCreateRequest {
-  clienteId: number;
   itens: ProdutoPedidoRequest[];
 }
 

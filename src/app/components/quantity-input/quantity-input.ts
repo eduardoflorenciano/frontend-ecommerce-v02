@@ -13,6 +13,13 @@ export class QuantityInput {
   readonly max = input(10);
 
   protected readonly opcoes = computed(() =>
-    Array.from({ length: this.max() }, (_valor, indice) => indice + 1),
+    Array.from(
+      { length: Math.max(this.max(), this.quantidade()) },
+      (_valor, indice) => indice + 1,
+    ),
   );
+
+  protected selecionar(valor: string | number): void {
+    this.quantidade.set(Number(valor));
+  }
 }

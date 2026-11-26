@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import Swal from 'sweetalert2';
-import { Logindatailsmodel } from '../../../models/logindatailsmodel';
+import { CadastroConcluido, Logindatailsmodel } from '../../../models/logindatailsmodel';
 import { LogindatailsService } from '../../../services/logindatails.service';
 
 @Component({
@@ -15,7 +15,7 @@ import { LogindatailsService } from '../../../services/logindatails.service';
 export class Logindatails {
   private readonly logindatailsService = inject(LogindatailsService);
 
-  @Output() retorno = new EventEmitter<{ id: number; nome: string }>();
+  @Output() retorno = new EventEmitter<CadastroConcluido>();
 
   form: Logindatailsmodel = {
     nome: '',
@@ -34,7 +34,12 @@ export class Logindatails {
 
     this.logindatailsService.logar(cadastro).subscribe({
       next: (resposta) => {
-        this.retorno.emit({ id: resposta.id, nome: resposta.nome });
+        this.retorno.emit({
+          id: resposta.id,
+          nome: resposta.nome,
+          telefone: cadastro.telefone ?? '',
+          senha: cadastro.senha ?? '',
+        });
         Swal.fire({
           icon: 'success',
           title: 'Cadastro feito com sucesso!',

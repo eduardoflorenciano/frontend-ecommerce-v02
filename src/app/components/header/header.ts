@@ -22,6 +22,11 @@ export class Header {
 
   protected termoBusca = '';
 
+  protected sair(): void {
+    this.sessaoService.sair();
+    this.router.navigate(['/']);
+  }
+
   protected buscar(): void {
     const termo = this.termoBusca.trim();
     if (!termo) {

@@ -4,7 +4,7 @@
     id="quantidade"
     class="form-select form-select-sm w-auto"
     [ngModel]="quantidade()"
-    (ngModelChange)="quantidade.set($event)"
+    (ngModelChange)="selecionar($event)"
   >
     @for (opcao of opcoes(); track opcao) {
     <option [value]="opcao">{{ opcao }}</option>

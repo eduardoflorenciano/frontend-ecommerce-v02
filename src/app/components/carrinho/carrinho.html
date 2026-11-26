@@ -34,8 +34,8 @@
           
           <app-quantity-input
             [quantidade]="item.quantidade"
+            [max]="item.produto.quantidadeEstoque ?? 10"
             (quantidadeChange)="alterarQuantidade(item.produto.id, $event)"
-            
           />
         </div>
 

@@ -39,6 +39,11 @@
               <li>
                 <a class="dropdown-item" routerLink="/minha-conta/historico"> Meu histórico </a>
               </li>
+              @if (sessaoService.ehEquipe()) {
+                <li>
+                  <a class="dropdown-item" routerLink="/admin">Painel administrativo</a>
+                </li>
+              }
               @if (cliente.id) {
                 <li>
                   <a
@@ -52,7 +57,7 @@
               }
               <li><hr class="dropdown-divider" /></li>
               <li>
-                <a class="dropdown-item" href="javascript:void(0)" (click)="sessaoService.sair()"
+                <a class="dropdown-item" href="javascript:void(0)" (click)="sair()"
                   >Sair do login</a
                 >
               </li>

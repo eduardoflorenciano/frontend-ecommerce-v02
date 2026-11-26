@@ -79,7 +79,17 @@ export class ProdutoDetalhe {
     if (!produto) {
       return;
     }
-    this.carrinhoService.adicionarItem(produto, this.quantidade());
+    const resultado = this.carrinhoService.adicionarItem(produto, this.quantidade());
+    if (resultado.limitado) {
+      Toast.fire({
+        icon: 'warning',
+        title:
+          resultado.quantidade > 0
+            ? `Limite do estoque: ${resultado.quantidade} un. de ${produto.nome} no carrinho`
+            : `${produto.nome} está sem estoque`,
+      });
+      return;
+    }
     Toast.fire({ icon: 'success', title: `${produto.nome} adicionado ao carrinho!` });
   }
 

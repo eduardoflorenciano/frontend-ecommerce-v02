@@ -45,7 +45,7 @@ export class Loginlist {
     this.modalSenhaRef = this.modalService.open(this.modalSenha);
   }
 
-  // O cadastro não devolve token: entra automaticamente com as credenciais recém-cadastradas
+  
   retornoDetalhe(cadastro: CadastroConcluido): void {
     this.modalLoginRef.close();
     this.cdr.detectChanges();
@@ -105,7 +105,7 @@ export class Loginlist {
     });
   }
 
-  // Volta para a rota que exigiu login (?redirect=...). Aceita só caminhos internos.
+  
   private irParaDestino(): void {
     const redirect = this.route.snapshot.queryParamMap.get('redirect');
     const interno = !!redirect && redirect.startsWith('/') && !redirect.startsWith('//');

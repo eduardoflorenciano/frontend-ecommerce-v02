@@ -33,7 +33,7 @@ export class SessaoService {
     try {
       localStorage.setItem(CHAVE_STORAGE, JSON.stringify(sessao));
     } catch {
-      /* storage indisponível: a sessão vale até recarregar a página */
+      
     }
   }
 
@@ -42,7 +42,7 @@ export class SessaoService {
     try {
       localStorage.removeItem(CHAVE_STORAGE);
     } catch {
-      /* ignora */
+      
     }
   }
 
@@ -59,7 +59,7 @@ export class SessaoService {
     }
   }
 
-  // Lê o "exp" do JWT (segundos) só para não restaurar um token que já venceu
+
   private expirado(token: string): boolean {
     try {
       const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');

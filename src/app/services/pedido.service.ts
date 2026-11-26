@@ -17,7 +17,6 @@ export class PedidoService {
     return this.http.get<PedidoAdmin[]>(`${this.apiUrl}/admin`);
   }
 
-  // Histórico do cliente autenticado (o back identifica o dono pelo token JWT)
   listarMeus(): Observable<PedidoAdmin[]> {
     return this.http.get<PedidoAdmin[]>(`${this.apiUrl}/meus`);
   }

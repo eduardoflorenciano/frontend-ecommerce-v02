@@ -17,8 +17,9 @@ export class PedidoService {
     return this.http.get<PedidoAdmin[]>(`${this.apiUrl}/admin`);
   }
 
-  listarPorCliente(clienteId: number): Observable<PedidoAdmin[]> {
-    return this.http.get<PedidoAdmin[]>(`${this.apiUrl}/cliente/${clienteId}`);
+  // Histórico do cliente autenticado (o back identifica o dono pelo token JWT)
+  listarMeus(): Observable<PedidoAdmin[]> {
+    return this.http.get<PedidoAdmin[]>(`${this.apiUrl}/meus`);
   }
 
   confirmarPagamento(id: number): Observable<string> {

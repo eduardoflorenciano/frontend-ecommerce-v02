@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import Swal from 'sweetalert2';
 import { Observable, catchError, map, of } from 'rxjs';
 import {
   EspecificacaoTecnica,
@@ -72,16 +73,35 @@ const AVISO_COMPATIBILIDADE_PADRAO =
   'esta medida. Recomendamos sempre confirmar a medida exata gravada na lateral do pneu do seu ' +
   'veículo antes de finalizar a compra.';
 
+let ultimoAvisoCatalogo = 0;
+
+function avisarFalhaCatalogo(): void {
+  const agora = Date.now();
+  if (agora - ultimoAvisoCatalogo < 5000) {
+    return;
+  }
+  ultimoAvisoCatalogo = agora;
+  Swal.fire({
+    toast: true,
+    position: 'top-end',
+    icon: 'error',
+    title: 'Não foi possível carregar o catálogo. Tente novamente em instantes',
+    showConfirmButton: false,
+    timer: 4000,
+  });
+}
+
 @Injectable({ providedIn: 'root' })
 export class ProdutoService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/api/produtos';
+  private readonly apiUrl = '/api/produtos';
 
   private pesquisarPorMedida(medida: string): Observable<ProdutoVariacaoPesquisaResponse[]> {
     const body: MedidaPesquisaRequest = { medida };
     return this.http.post<ProdutoVariacaoPesquisaResponse[]>(`${this.apiUrl}/pesquisar`, body).pipe(
       catchError((erro) => {
         console.error('Erro ao buscar produtos no back-end:', erro);
+        avisarFalhaCatalogo();
         return of([]);
       }),
     );
@@ -147,7 +167,12 @@ function mapearParaResumo(variacao: ProdutoVariacaoPesquisaResponse): ProdutoRes
     precoAtual: variacao.preco,
     percentualDesconto: 0,
     parcelas: { quantidade: 10, valor: Math.round((variacao.preco / 10) * 100) / 100 },
+    quantidadeEstoque: unidadesDisponiveis(variacao),
   };
+}
+
+function unidadesDisponiveis(variacao: ProdutoVariacaoPesquisaResponse): number {
+  return Math.max(0, variacao.quantidadeDisponivel ?? variacao.quantidadeEstoque ?? 0);
 }
 
 function mapearParaDetalhe(variacao: ProdutoVariacaoPesquisaResponse): Produto {
@@ -170,7 +195,7 @@ function mapearParaDetalhe(variacao: ProdutoVariacaoPesquisaResponse): Produto {
     ...resumo,
     especificacoes,
     veiculosCompativeis,
-    quantidadeEstoque: variacao.quantidadeEstoque,
+    quantidadeEstoque: unidadesDisponiveis(variacao),
     sobreProduto: SOBRE_PRODUTO_PADRAO,
     sobreMarca: SOBRE_MARCA_PADRAO,
     recomendacoes: RECOMENDACOES_PADRAO,

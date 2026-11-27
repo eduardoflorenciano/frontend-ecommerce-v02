@@ -17,8 +17,8 @@ export class PedidoService {
     return this.http.get<PedidoAdmin[]>(`${this.apiUrl}/admin`);
   }
 
-  listarPorCliente(clienteId: number): Observable<PedidoAdmin[]> {
-    return this.http.get<PedidoAdmin[]>(`${this.apiUrl}/cliente/${clienteId}`);
+  listarMeus(): Observable<PedidoAdmin[]> {
+    return this.http.get<PedidoAdmin[]>(`${this.apiUrl}/meus`);
   }
 
   confirmarPagamento(id: number): Observable<string> {

@@ -3,7 +3,8 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
 import Swal from 'sweetalert2';
-import { CarrinhoService } from '../../services/carrinho.service';
+import { CarrinhoService, ResumoSincronizacao } from '../../services/carrinho.service';
+import { ProdutoService } from '../../services/produto.service';
 import { PedidoService } from '../../services/pedido.service';
 import { SessaoService } from '../../services/sessao.service';
 import { QuantityInput } from '../quantity-input/quantity-input';
@@ -27,10 +28,44 @@ export class Carrinho {
   protected readonly carrinhoService = inject(CarrinhoService);
   protected readonly sessaoService = inject(SessaoService);
   private readonly pedidoService = inject(PedidoService);
+  private readonly produtoService = inject(ProdutoService);
   private readonly router = inject(Router);
 
   protected readonly itens = this.carrinhoService.itens;
   protected readonly valorTotal = this.carrinhoService.valorTotal;
+
+  constructor() {
+    
+    if (this.itens().length > 0) {
+      this.produtoService
+        .listarTodos()
+        .subscribe((catalogo) =>
+          this.avisarAjustes(this.carrinhoService.sincronizarComCatalogo(catalogo)),
+        );
+    }
+  }
+
+  private avisarAjustes(resumo: ResumoSincronizacao | null): void {
+    if (!resumo) {
+      return;
+    }
+    const partes: string[] = [];
+    if (resumo.removidos.length) {
+      partes.push(`Sem estoque, removido: ${resumo.removidos.join(', ')}.`);
+    }
+    if (resumo.ajustados.length) {
+      partes.push(`Quantidade ajustada ao estoque: ${resumo.ajustados.join(', ')}.`);
+    }
+    if (resumo.precosAtualizados.length) {
+      partes.push(`Preço atualizado: ${resumo.precosAtualizados.join(', ')}.`);
+    }
+    Swal.fire({
+      icon: 'info',
+      title: 'Seu carrinho foi atualizado',
+      text: partes.join(' '),
+      confirmButtonText: 'Entendi',
+    });
+  }
 
   protected alterarQuantidade(produtoId: string, quantidade: number): void {
     this.carrinhoService.alterarQuantidade(produtoId, quantidade);
@@ -54,7 +89,7 @@ export class Carrinho {
         title: 'Faça login para continuar',
         text: 'Você precisa estar logado para finalizar a compra',
         confirmButtonText: 'Ir para o login',
-      }).then(() => this.router.navigate(['/login']));
+      }).then(() => this.router.navigate(['/login'], { queryParams: { redirect: '/carrinho' } }));
       return;
     }
 
@@ -67,8 +102,6 @@ export class Carrinho {
       return;
     }
 
-    const clienteId = cliente.id;
-
     Swal.fire({
       icon: 'question',
       title: 'Finalizar compra?',
@@ -78,14 +111,14 @@ export class Carrinho {
       cancelButtonText: 'Cancelar',
     }).then((resultado) => {
       if (resultado.isConfirmed) {
-        this.enviarPedido(clienteId);
+        this.enviarPedido();
       }
     });
   }
 
-  private enviarPedido(clienteId: number): void {
+  private enviarPedido(): void {
+    
     const pedido = {
-      clienteId,
       itens: this.itens().map((item) => ({
         produtoVariacaoId: Number(item.produto.id),
         quantidade: item.quantidade,

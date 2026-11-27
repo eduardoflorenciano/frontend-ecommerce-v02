@@ -8,6 +8,7 @@ import { PedidosComponent } from './admin/pedidos/pedidos.component';
 import { AdminLayoutComponent } from './admin/layout/admin-layout.component';
 import { HistoricoComprasComponent } from './components/historico-compras/historico-compras.component';
 import { EstoqueComponent } from './admin/estoque/estoque.component';
+import { authGuard, perfilGuard } from './core/auth.guards';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -19,10 +20,11 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayoutComponent,
+    canActivate: [perfilGuard('ADM', 'ATENDENTE')],
     children: [
       { path: '', redirectTo: 'pedidos', pathMatch: 'full' },
       { path: 'pedidos', component: PedidosComponent },
-      { path: 'estoque', component: EstoqueComponent },
+      { path: 'estoque', component: EstoqueComponent, canActivate: [perfilGuard('ADM')] },
     ],
   },
   { path: 'carrinho', component: Carrinho },
@@ -30,6 +32,7 @@ export const routes: Routes = [
   {
     path: 'minha-conta/historico',
     component: HistoricoComprasComponent,
+    canActivate: [authGuard],
   },
   { path: '**', redirectTo: '' },
 ];

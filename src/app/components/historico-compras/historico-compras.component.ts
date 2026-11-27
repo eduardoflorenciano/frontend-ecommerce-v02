@@ -55,7 +55,7 @@ export class HistoricoComprasComponent implements OnInit {
     this.carregando = true;
     this.erro = '';
 
-    this.pedidoService.listarPorCliente(cliente.id).subscribe({
+    this.pedidoService.listarMeus().subscribe({
       next: (resposta) => {
         this.pedidos = resposta;
         this.carregando = false;
